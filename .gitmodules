@@ -1,0 +1,3 @@
+[submodule "Submodules/variant"]
+	path = Submodules/variant
+	url = https://github.com/boostorg/variant
