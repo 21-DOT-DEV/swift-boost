@@ -1,3 +1,75 @@
 [submodule "Submodules/variant"]
 	path = Submodules/variant
 	url = https://github.com/boostorg/variant
+[submodule "Submodules/utility"]
+	path = Submodules/utility
+	url = https://github.com/boostorg/utility
+[submodule "Submodules/type_traits"]
+	path = Submodules/type_traits
+	url = https://github.com/boostorg/type_traits
+[submodule "Submodules/type_index"]
+	path = Submodules/type_index
+	url = https://github.com/boostorg/type_index
+[submodule "Submodules/tuple"]
+	path = Submodules/tuple
+	url = https://github.com/boostorg/tuple
+[submodule "Submodules/throw_exception"]
+	path = Submodules/throw_exception
+	url = https://github.com/boostorg/throw_exception
+[submodule "Submodules/static_assert"]
+	path = Submodules/static_assert
+	url = https://github.com/boostorg/static_assert
+[submodule "Submodules/smart_ptr"]
+	path = Submodules/smart_ptr
+	url = https://github.com/boostorg/smart_ptr
+[submodule "Submodules/signals2"]
+	path = Submodules/signals2
+	url = https://github.com/boostorg/signals2
+[submodule "Submodules/serialization"]
+	path = Submodules/serialization
+	url = https://github.com/boostorg/serialization
+[submodule "Submodules/preprocessor"]
+	path = Submodules/preprocessor
+	url = https://github.com/boostorg/preprocessor
+[submodule "Submodules/optional"]
+	path = Submodules/optional
+	url = https://github.com/boostorg/optional
+[submodule "Submodules/multi_index"]
+	path = Submodules/multi_index
+	url = https://github.com/boostorg/multi_index
+[submodule "Submodules/mpl"]
+	path = Submodules/mpl
+	url = https://github.com/boostorg/mpl
+[submodule "Submodules/move"]
+	path = Submodules/move
+	url = https://github.com/boostorg/move
+[submodule "Submodules/iterator"]
+	path = Submodules/iterator
+	url = https://github.com/boostorg/iterator
+[submodule "Submodules/integer"]
+	path = Submodules/integer
+	url = https://github.com/boostorg/integer
+[submodule "Submodules/function"]
+	path = Submodules/function
+	url = https://github.com/boostorg/function
+[submodule "Submodules/foreach"]
+	path = Submodules/foreach
+	url = https://github.com/boostorg/foreach
+[submodule "Submodules/detail"]
+	path = Submodules/detail
+	url = https://github.com/boostorg/detail
+[submodule "Submodules/core"]
+	path = Submodules/core
+	url = https://github.com/boostorg/core
+[submodule "Submodules/container_hash"]
+	path = Submodules/container_hash
+	url = https://github.com/boostorg/container_hash
+[submodule "Submodules/config"]
+	path = Submodules/config
+	url = https://github.com/boostorg/config
+[submodule "Submodules/bind"]
+	path = Submodules/bind
+	url = https://github.com/boostorg/bind
+[submodule "Submodules/assert"]
+	path = Submodules/assert
+	url = https://github.com/boostorg/assert
