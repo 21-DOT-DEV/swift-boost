@@ -73,3 +73,33 @@
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
+[submodule "Submodules/tokenizer"]
+	path = Submodules/tokenizer
+	url = https://github.com/boostorg/tokenizer
+[submodule "Submodules/range"]
+	path = Submodules/range
+	url = https://github.com/boostorg/range
+[submodule "Submodules/numeric_conversion"]
+	path = Submodules/numeric_conversion
+	url = https://github.com/boostorg/numeric_conversion
+[submodule "Submodules/lexical_cast"]
+	path = Submodules/lexical_cast
+	url = https://github.com/boostorg/lexical_cast
+[submodule "Submodules/io"]
+	path = Submodules/io
+	url = https://github.com/boostorg/io
+[submodule "Submodules/date_time"]
+	path = Submodules/date_time
+	url = https://github.com/boostorg/date_time
+[submodule "Submodules/container"]
+	path = Submodules/container
+	url = https://github.com/boostorg/container
+[submodule "Submodules/concept_check"]
+	path = Submodules/concept_check
+	url = https://github.com/boostorg/concept_check
+[submodule "Submodules/array"]
+	path = Submodules/array
+	url = https://github.com/boostorg/array
+[submodule "Submodules/algorithm"]
+	path = Submodules/algorithm
+	url = https://github.com/boostorg/algorithm
