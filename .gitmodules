@@ -103,3 +103,6 @@
 [submodule "Submodules/algorithm"]
 	path = Submodules/algorithm
 	url = https://github.com/boostorg/algorithm
+[submodule "Submodules/property_tree"]
+	path = Submodules/property_tree
+	url = https://github.com/boostorg/property_tree.git
