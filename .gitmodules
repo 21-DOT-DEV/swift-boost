@@ -103,3 +103,6 @@
 [submodule "Submodules/mpl"]
 	path = Submodules/mpl
 	url = https://github.com/21-DOT-DEV/mpl
+[submodule "Submodules/describe"]
+	path = Submodules/describe
+	url = https://github.com/boostorg/describe
