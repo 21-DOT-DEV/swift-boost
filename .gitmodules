@@ -106,3 +106,6 @@
 [submodule "Submodules/describe"]
 	path = Submodules/describe
 	url = https://github.com/boostorg/describe
+[submodule "Submodules/mp11"]
+	path = Submodules/mp11
+	url = https://github.com/boostorg/mp11
