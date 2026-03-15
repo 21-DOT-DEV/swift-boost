@@ -43,9 +43,6 @@
 [submodule "Submodules/integer"]
 	path = Submodules/integer
 	url = https://github.com/boostorg/integer
-[submodule "Submodules/function"]
-	path = Submodules/function
-	url = https://github.com/boostorg/function
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
