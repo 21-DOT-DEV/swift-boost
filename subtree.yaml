@@ -243,5 +243,11 @@ subtrees:
   branch: boost-1.77.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/serialization/
+- name: smart_ptr
+  remote: https://github.com/boostorg/smart_ptr
+  prefix: Vendor/smart_ptr
+  commit: 331c50132ba92f0b05b1672cced9dbaee6614c32
+  branch: boost-1.81.0
+  squash: true
