@@ -25,9 +25,6 @@
 [submodule "Submodules/serialization"]
 	path = Submodules/serialization
 	url = https://github.com/boostorg/serialization
-[submodule "Submodules/preprocessor"]
-	path = Submodules/preprocessor
-	url = https://github.com/boostorg/preprocessor
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
