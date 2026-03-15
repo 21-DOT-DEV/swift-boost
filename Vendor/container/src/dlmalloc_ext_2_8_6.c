@@ -36,6 +36,8 @@
 #define FORCEINLINE inline
 #endif
 
+#define DLMALLOC_EXT_GCC_VERSION 
+
 #ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4127)
@@ -47,6 +49,18 @@
 #pragma warning (disable : 4057) /*differs in indirection to slightly different base types from*/
 #pragma warning (disable : 4702) /*unreachable code*/
 #pragma warning (disable : 4127) /*conditional expression is constant*/
+#elif defined(__GNUC__)
+
+# if ((__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__) >= 40800)
+   //Disable false positives triggered by -Waggressive-loop-optimizations
+#  pragma GCC diagnostic ignored "-Waggressive-loop-optimizations"
+#  endif
+
+# if ((__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__) >= 40600)
+   //Disable false positives triggered by -Warray-bounds
+#  pragma GCC diagnostic ignored "-Warray-bounds"
+#  endif
+
 #endif
 
 #include "dlmalloc_2_8_6.c"
@@ -1204,12 +1218,12 @@ int boost_cont_multialloc_nodes
    return ret;
 }
 
-size_t boost_cont_footprint()
+size_t boost_cont_footprint(void)
 {
    return ((mstate)gm)->footprint;
 }
 
-size_t boost_cont_allocated_memory()
+size_t boost_cont_allocated_memory(void)
 {
    size_t alloc_mem = 0;
    mstate m = (mstate)gm;
@@ -1224,14 +1238,12 @@ size_t boost_cont_allocated_memory()
       if (is_initialized(m)) {
       size_t nfree = SIZE_T_ONE; /* top always free */
       size_t mfree = m->topsize + TOP_FOOT_SIZE;
-      size_t sum = mfree;
       msegmentptr s = &m->seg;
       while (s != 0) {
          mchunkptr q = align_as_chunk(s->base);
          while (segment_holds(s, q) &&
                q != m->top && q->head != FENCEPOST_HEAD) {
             size_t sz = chunksize(q);
-            sum += sz;
             if (!is_inuse(q)) {
             mfree += sz;
             ++nfree;
@@ -1257,10 +1269,10 @@ size_t boost_cont_allocated_memory()
 size_t boost_cont_chunksize(const void *p)
 {  return chunksize(mem2chunk(p));   }
 
-int boost_cont_all_deallocated()
+int boost_cont_all_deallocated(void)
 {  return !s_allocated_memory;  }
 
-boost_cont_malloc_stats_t boost_cont_malloc_stats()
+boost_cont_malloc_stats_t boost_cont_malloc_stats(void)
 {
   mstate ms = (mstate)gm;
   if (ok_magic(ms)) {
@@ -1273,7 +1285,7 @@ boost_cont_malloc_stats_t boost_cont_malloc_stats()
   }
 }
 
-size_t boost_cont_in_use_memory()
+size_t boost_cont_in_use_memory(void)
 {  return s_allocated_memory;   }
 
 int boost_cont_trim(size_t pad)
@@ -1342,7 +1354,7 @@ void boost_cont_multidealloc(boost_cont_memchain *pchain)
    internal_multialloc_free(ms, pchain);
 }
 
-int boost_cont_malloc_check()
+int boost_cont_malloc_check(void)
 {
 #ifdef DEBUG
    mstate ms = (mstate)gm;
@@ -1440,7 +1452,7 @@ int boost_cont_mallopt(int param_number, int value)
   return change_mparam(param_number, value);
 }
 
-void *boost_cont_sync_create()
+void *boost_cont_sync_create(void)
 {
    void *p = boost_cont_malloc(sizeof(MLOCK_T));
    if(p){
@@ -1466,7 +1478,7 @@ int boost_cont_sync_lock(void *sync)
 void boost_cont_sync_unlock(void *sync)
 {  RELEASE_LOCK((MLOCK_T*)sync);  }
 
-int boost_cont_global_sync_lock()
+int boost_cont_global_sync_lock(void)
 {
    int ret;
    ensure_initialization();
@@ -1474,7 +1486,7 @@ int boost_cont_global_sync_lock()
    return 0 == ret;
 }
 
-void boost_cont_global_sync_unlock()
+void boost_cont_global_sync_unlock(void)
 {
    RELEASE_MALLOC_GLOBAL_LOCK()
 }

@@ -9,7 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //[doc_custom_static_vector
 #include <boost/container/static_vector.hpp>
-#include <boost/static_assert.hpp>
 
 //Make sure assertions are active
 #ifdef NDEBUG
@@ -33,6 +32,14 @@ int main ()
 
    //Create static_vector with no throw on overflow
    static_vector<int, 10, no_throw_options_t > sv2;
+
+   //This options specifies that internal `size()` can be represented by an unsigned char
+   //instead of the default `std::size_t`.
+   typedef static_vector_options< stored_size<unsigned char> >::type stored_size_uchar_t;
+
+   //Create static_vector that internally stores `size()` in an unsigned char
+   //because `capacity()` will be less thatn 256.
+   static_vector<unsigned char, 10, stored_size_uchar_t> sv3;
 
    return 0;
 }

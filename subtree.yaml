@@ -57,8 +57,8 @@ subtrees:
 - name: container
   remote: https://github.com/boostorg/container
   prefix: Vendor/container
-  commit: ae5572dbb430acfd046087258a9b76b26000ff2a
-  branch: boost-1.81.0
+  commit: 29323399657194e8968656ab85b47139ca722ec2
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
