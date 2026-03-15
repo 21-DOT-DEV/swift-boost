@@ -311,8 +311,8 @@ subtrees:
 - name: type_traits
   remote: https://github.com/boostorg/type_traits
   prefix: Vendor/type_traits
-  commit: 74995c5d84a367a9243a1392c614c5488b6b62f6
-  branch: boost-1.81.0
+  commit: 67a6c32499866ea4485e249e8e406fb1348eb5d2
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
