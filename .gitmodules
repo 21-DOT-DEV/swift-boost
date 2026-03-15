@@ -31,6 +31,3 @@
 [submodule "Submodules/tokenizer"]
 	path = Submodules/tokenizer
 	url = https://github.com/boostorg/tokenizer
-[submodule "Submodules/range"]
-	path = Submodules/range
-	url = https://github.com/boostorg/range
