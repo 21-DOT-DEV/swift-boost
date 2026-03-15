@@ -266,8 +266,8 @@ subtrees:
 - name: signals2
   remote: https://github.com/boostorg/signals2
   prefix: Vendor/signals2
-  commit: ed50b7720e91215975dd74bca2bf9741f9a56798
-  branch: boost-1.81.0
+  commit: 3e7413b9d6084a160db9a2a90bb74d55415c5226
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
