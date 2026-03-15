@@ -102,8 +102,8 @@ subtrees:
 - name: detail
   remote: https://github.com/boostorg/detail
   prefix: Vendor/detail
-  commit: c6dac76110869b7cd22e48a146170d14af994240
-  branch: boost-1.81.0
+  commit: 43238b75cee1a010d6ef6dc48dfc21c365d3796f
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
