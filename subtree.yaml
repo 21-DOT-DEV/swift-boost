@@ -275,8 +275,8 @@ subtrees:
 - name: throw_exception
   remote: https://github.com/boostorg/throw_exception
   prefix: Vendor/throw_exception
-  commit: d307a2d4a75efb0999f97f559f2df83cb9841b8d
-  branch: boost-1.81.0
+  commit: 74bea78a391ccbba61d5287925c31a4ead1114d1
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
