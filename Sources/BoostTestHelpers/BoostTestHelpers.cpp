@@ -1,5 +1,5 @@
 //
-//  multi_index.cpp
+//  BoostTestHelpers.cpp
 //  21-DOT-DEV/swift-boost
 //
 //  Copyright (c) 2026 Timechain Software Initiative, Inc.
@@ -9,4 +9,4 @@
 //
 
 
-//  This file only exists for automatic module generation
+// Required by SPM (minimum one source file per target)
