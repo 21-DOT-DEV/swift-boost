@@ -97,5 +97,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/describe/
+- name: detail
+  remote: https://github.com/boostorg/detail
+  prefix: Vendor/detail
+  commit: c6dac76110869b7cd22e48a146170d14af994240
+  branch: boost-1.81.0
+  squash: true
