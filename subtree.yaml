@@ -42,3 +42,6 @@ subtrees:
   commit: 5656ffe0ac76ad58fbaff45baff20c39924a1278
   branch: boost-1.80.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/concept_check/
