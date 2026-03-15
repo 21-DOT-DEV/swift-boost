@@ -39,8 +39,8 @@ subtrees:
 - name: concept_check
   remote: https://github.com/boostorg/concept_check
   prefix: Vendor/concept_check
-  commit: 5656ffe0ac76ad58fbaff45baff20c39924a1278
-  branch: boost-1.81.0
+  commit: 0ef7f2b5daeaa125a53d98affba8f40091d24b17
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
