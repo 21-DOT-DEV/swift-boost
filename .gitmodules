@@ -49,6 +49,3 @@
 [submodule "Submodules/mpl"]
 	path = Submodules/mpl
 	url = https://github.com/21-DOT-DEV/mpl
-[submodule "Submodules/mp11"]
-	path = Submodules/mp11
-	url = https://github.com/boostorg/mp11
