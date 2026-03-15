@@ -120,8 +120,8 @@ subtrees:
 - name: function
   remote: https://github.com/boostorg/function
   prefix: Vendor/function
-  commit: 16fca8368b5da14c4bcad977c2738dc6e482e1b7
-  branch: boost-1.81.0
+  commit: f6b538dbed2e3047dcbd09eb3f5c7f1ffa90d0a9
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
