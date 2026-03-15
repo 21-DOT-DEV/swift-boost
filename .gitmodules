@@ -79,9 +79,6 @@
 [submodule "Submodules/date_time"]
 	path = Submodules/date_time
 	url = https://github.com/boostorg/date_time
-[submodule "Submodules/container"]
-	path = Submodules/container
-	url = https://github.com/boostorg/container
 [submodule "Submodules/mpl"]
 	path = Submodules/mpl
 	url = https://github.com/21-DOT-DEV/mpl

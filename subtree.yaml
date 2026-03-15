@@ -60,3 +60,6 @@ subtrees:
   commit: ae5572dbb430acfd046087258a9b76b26000ff2a
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/container/
