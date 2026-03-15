@@ -171,5 +171,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/move/
+- name: mp11
+  remote: https://github.com/boostorg/mp11
+  prefix: Vendor/mp11
+  commit: f6133a9f1f965d89676a33c4a39b3df09373b929
+  branch: boost-1.81.0
+  squash: true
