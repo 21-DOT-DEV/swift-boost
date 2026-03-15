@@ -234,5 +234,11 @@ subtrees:
   branch: boost-1.77.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/range/
+- name: serialization
+  remote: https://github.com/boostorg/serialization
+  prefix: Vendor/serialization
+  commit: 0ca603daf99888bf059c01ae1bab1b27dbc35ebe
+  branch: boost-1.77.0
+  squash: true
