@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -43,6 +43,9 @@ let package = Package(
         .library(name: "type_traits", targets: ["type_traits"]),
         .library(name: "utility", targets: ["utility"]),
         .library(name: "variant", targets: ["variant"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/21-DOT-DEV/swift-plugin-subtree.git", exact: "0.0.12")
     ],
     targets: [
         .target(name: "algorithm"),
