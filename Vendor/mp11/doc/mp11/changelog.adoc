@@ -1,5 +1,5 @@
 ////
-Copyright 2019-2020 Peter Dimov
+Copyright 2019-2025 Peter Dimov
 
 Distributed under the Boost Software License, Version 1.0.
 
@@ -9,6 +9,40 @@ http://www.boost.org/LICENSE_1_0.txt
 
 [#changelog]
 # Revision History
+
+## Changes in 1.90.0
+
+* Updated `mp_reverse_fold` to work on fixed size lists
+
+## Changes in 1.88.0
+
+* Fixed `mp_from_sequence` for non-integral values (accidentally broken in 1.83.0 due to offset support)
+
+## Changes in 1.87.0
+
+* Added `mp_lambda` (contributed by Joaquin M Lopez Munoz)
+
+## Changes in 1.85.0
+
+* Added `mp_sliding_fold`, a generalization of `mp_pairwise_fold` (contributed by Braden Ganetsky)
+* Added `mp_slice` (thanks to Braden Ganetsky)
+* Added value list support to `mp_min_element`, `mp_max_element`.
+* Added limited value list support to `mp_transform`.
+
+## Changes in 1.83.0
+
+* Added an offset/from parameter to `mp_from_sequence`, `mp_iota`, `mp_iota_c`.
+* Added `mp_value`, `mp_list_v`, `mp_rename_v`, `mp_is_value_list`.
+* Added value list support to the primitives in `<boost/mp11/list.hpp>`.
+* Added value list support to `mp_repeat`, `mp_fill`, `mp_at`, `mp_back`, `mp_take`, `mp_pop_back`, `mp_drop`, `mp_insert`, `mp_erase`.
+
+## Changes in 1.79.0
+
+* Added `mp_valid_and_true` (contributed by Dmitry Arkhipov)
+
+## Changes in 1.78.0
+
+* Added support for n-ary functions to `mp_compose` (contributed by Dmitry Arkhipov)
 
 ## Changes in 1.77.0
 
