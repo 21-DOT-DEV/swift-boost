@@ -225,5 +225,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/preprocessor/
+- name: range
+  remote: https://github.com/boostorg/range
+  prefix: Vendor/range
+  commit: 88c6199aedf8bbb5a6a8966e534f9de99943cde2
+  branch: boost-1.77.0
+  squash: true
