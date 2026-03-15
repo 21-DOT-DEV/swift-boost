@@ -30,8 +30,8 @@ subtrees:
 - name: bind
   remote: https://github.com/boostorg/bind
   prefix: Vendor/bind
-  commit: cbd61ba5b9bbefebab0eeabf07ece4cc928d2159
-  branch: boost-1.81.0
+  commit: a541a8d5c16920e1836d09299915890d687efe36
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
