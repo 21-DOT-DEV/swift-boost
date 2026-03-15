@@ -1,9 +1,6 @@
 [submodule "Submodules/variant"]
 	path = Submodules/variant
 	url = https://github.com/boostorg/variant
-[submodule "Submodules/type_traits"]
-	path = Submodules/type_traits
-	url = https://github.com/boostorg/type_traits
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
