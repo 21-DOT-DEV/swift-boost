@@ -24,3 +24,6 @@ subtrees:
   commit: db964b368723d3007986b93c1d02e3f35f225324
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/assert/
