@@ -97,6 +97,9 @@
 [submodule "Submodules/array"]
 	path = Submodules/array
 	url = https://github.com/boostorg/array
+[submodule "Submodules/algorithm"]
+	path = Submodules/algorithm
+	url = https://github.com/boostorg/algorithm
 [submodule "Submodules/mpl"]
 	path = Submodules/mpl
 	url = https://github.com/21-DOT-DEV/mpl
