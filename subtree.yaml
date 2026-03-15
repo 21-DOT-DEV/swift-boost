@@ -189,5 +189,11 @@ subtrees:
   branch: boost-1.81.0-clang-backport
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/mpl/
+- name: multi_index
+  remote: https://github.com/boostorg/multi_index
+  prefix: Vendor/multi_index
+  commit: 288216448cbe55b00106cf68aa45f87da7255b20
+  branch: boost-1.81.0
+  squash: true
