@@ -3,8 +3,8 @@ subtrees:
 - name: algorithm
   remote: https://github.com/boostorg/algorithm
   prefix: Vendor/algorithm
-  commit: 28dd87b90e79c5e1d9de82835125aa2bcbb3f468
-  branch: boost-1.81.0
+  commit: 32c5a6327cfdca5d41ce0f1d8849b811886daa2f
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
