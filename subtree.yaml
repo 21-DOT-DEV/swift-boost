@@ -329,8 +329,8 @@ subtrees:
 - name: variant
   remote: https://github.com/boostorg/variant
   prefix: Vendor/variant
-  commit: 78856c049d6323882bfc9ab06790f550f7ee9b4f
-  branch: boost-1.81.0
+  commit: 9738f5733b3a9863be0cc2ab23cd9ba1ae5b74ff
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
