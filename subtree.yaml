@@ -311,3 +311,6 @@ subtrees:
   commit: cca370a91834d331e3143ac4d023fb0f178e512b
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/type_index/
