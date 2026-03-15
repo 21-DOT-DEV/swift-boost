@@ -149,8 +149,8 @@ subtrees:
 - name: iterator
   remote: https://github.com/boostorg/iterator
   prefix: Vendor/iterator
-  commit: 7c9b4296a189f71b28de3aad025b08da1f4ca84b
-  branch: boost-1.81.0
+  commit: 2a4dbd1d8df5cd516c2ac8dbd42a0e7cfd87430c
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
