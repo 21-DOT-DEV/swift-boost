@@ -320,8 +320,8 @@ subtrees:
 - name: utility
   remote: https://github.com/boostorg/utility
   prefix: Vendor/utility
-  commit: 3aa25c9dd789c89f08f92632898693d9997d8a70
-  branch: boost-1.81.0
+  commit: dda83c5b60bfaa77d4d777a047197ae5e5922c49
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}

@@ -5,12 +5,9 @@
         "authors": [
             "Dave Abrahams and others"
         ],
-        "description": "Class noncopyable plus checked_delete(), checked_array_delete(), next(), prior() function templates, plus base-from-member idiom.",
+        "description": "Various utilities, such as base-from-member idiom and binary literals in C++03.",
         "documentation": "utility.htm",
         "category": [
-            "Algorithms",
-            "Function-objects",
-            "Memory",
             "Miscellaneous",
             "Patterns"
         ],
@@ -35,7 +32,7 @@
         "authors": [
             "John Maddock, Howard Hinnant, et al"
         ],
-        "description": "Empty member optimization.",
+        "description": "A pair class with empty member optimization.",
         "documentation": "compressed_pair.htm",
         "category": [
             "Data",
@@ -79,7 +76,7 @@
             "Dave Abrahams",
             "Jeremy Siek"
         ],
-        "description": "Templates ease arithmetic classes and iterators.",
+        "description": "Templates to simplify operator definition in arithmetic classes and iterators.",
         "documentation": "operators.htm",
         "category": [
             "Generic",
@@ -95,7 +92,7 @@
         "key": "utility/result_of",
         "name": "Result Of",
         "description": "Determines the type of a function call expression.",
-        "documentation": "utility.htm#result_of",
+        "documentation": "doc/html/utility/utilities/result_of.html",
         "category": [
             "Function-objects"
         ],
@@ -106,12 +103,13 @@
         "cxxstd": "03"
     },
     {
-        "key": "utility/string_ref",
-        "name": "String Ref",
+        "key": "utility/string_view",
+        "name": "String View",
         "description": "String view templates.",
-        "documentation": "doc/html/string_ref.html",
+        "documentation": "doc/html/utility/utilities/string_view.html",
         "category": [
-            "Containers"
+            "Containers",
+            "String"
         ],
         "authors": "Marshall Clow",
         "maintainers": [
