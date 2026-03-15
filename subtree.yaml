@@ -261,5 +261,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/static_assert/
+- name: static_string
+  remote: https://github.com/boostorg/static_string
+  prefix: Vendor/static_string
+  commit: 5d6fefdd2acd70c34d8ba4590ab888d8481532af
+  branch: boost-1.81.0
+  squash: true
