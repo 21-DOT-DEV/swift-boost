@@ -180,5 +180,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/mp11/
+- name: mpl
+  remote: https://github.com/21-DOT-DEV/mpl
+  prefix: Vendor/mpl
+  commit: 3f2f7e90472ad0d54315dcc0eeb742c50b5ebca1
+  branch: boost-1.81.0-clang-backport
+  squash: true
