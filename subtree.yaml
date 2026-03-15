@@ -124,7 +124,13 @@ subtrees:
   branch: boost-1.80.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/function/
     exclude:
     - '**/*.pl'
+- name: integer
+  remote: https://github.com/boostorg/integer
+  prefix: Vendor/integer
+  commit: 8ce66ab37e246d1df51a8d7b37cfa0049057ca8f
+  branch: boost-1.81.0
+  squash: true
