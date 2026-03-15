@@ -22,9 +22,6 @@
 [submodule "Submodules/signals2"]
 	path = Submodules/signals2
 	url = https://github.com/boostorg/signals2
-[submodule "Submodules/serialization"]
-	path = Submodules/serialization
-	url = https://github.com/boostorg/serialization
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
