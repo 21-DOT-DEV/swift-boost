@@ -312,5 +312,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/type_index/
+- name: type_traits
+  remote: https://github.com/boostorg/type_traits
+  prefix: Vendor/type_traits
+  commit: 74995c5d84a367a9243a1392c614c5488b6b62f6
+  branch: boost-1.81.0
+  squash: true
