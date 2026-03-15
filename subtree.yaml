@@ -131,8 +131,8 @@ subtrees:
 - name: integer
   remote: https://github.com/boostorg/integer
   prefix: Vendor/integer
-  commit: 8ce66ab37e246d1df51a8d7b37cfa0049057ca8f
-  branch: boost-1.81.0
+  commit: 4d702c79a45c1b204de864a5d11efa711e8713cf
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
