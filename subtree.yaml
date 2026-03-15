@@ -203,8 +203,8 @@ subtrees:
 - name: numeric_conversion
   remote: https://github.com/boostorg/numeric_conversion
   prefix: Vendor/numeric_conversion
-  commit: 50a1eae942effb0a9b90724323ef8f2a67e7984a
-  branch: boost-1.81.0
+  commit: d1b479f7a4aa54d8ffb93d8dc4ee0c24670210d8
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
