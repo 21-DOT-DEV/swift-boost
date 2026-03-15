@@ -55,9 +55,6 @@
 [submodule "Submodules/core"]
 	path = Submodules/core
 	url = https://github.com/boostorg/core
-[submodule "Submodules/container_hash"]
-	path = Submodules/container_hash
-	url = https://github.com/boostorg/container_hash
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
