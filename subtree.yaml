@@ -1,2 +1,8 @@
 # Managed by subtree CLI - https://github.com/21-DOT-DEV/subtree
-subtrees: []
+subtrees:
+- name: algorithm
+  remote: https://github.com/boostorg/algorithm
+  prefix: Vendor/algorithm
+  commit: 28dd87b90e79c5e1d9de82835125aa2bcbb3f468
+  branch: boost-1.81.0
+  squash: true
