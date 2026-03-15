@@ -28,9 +28,6 @@
 [submodule "Submodules/preprocessor"]
 	path = Submodules/preprocessor
 	url = https://github.com/boostorg/preprocessor
-[submodule "Submodules/optional"]
-	path = Submodules/optional
-	url = https://github.com/boostorg/optional
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
