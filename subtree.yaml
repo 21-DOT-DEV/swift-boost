@@ -33,3 +33,6 @@ subtrees:
   commit: cbd61ba5b9bbefebab0eeabf07ece4cc928d2159
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/bind/

@@ -61,9 +61,6 @@
 [submodule "Submodules/config"]
 	path = Submodules/config
 	url = https://github.com/boostorg/config
-[submodule "Submodules/bind"]
-	path = Submodules/bind
-	url = https://github.com/boostorg/bind
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
