@@ -13,6 +13,3 @@
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
-[submodule "Submodules/tokenizer"]
-	path = Submodules/tokenizer
-	url = https://github.com/boostorg/tokenizer
