@@ -302,3 +302,6 @@ subtrees:
   commit: 500e4fa0a2845b96c0dd919e7485e0f216438a01
   branch: boost-1.79.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/tuple/

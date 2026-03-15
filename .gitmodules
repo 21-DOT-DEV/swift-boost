@@ -7,9 +7,6 @@
 [submodule "Submodules/type_index"]
 	path = Submodules/type_index
 	url = https://github.com/boostorg/type_index
-[submodule "Submodules/tuple"]
-	path = Submodules/tuple
-	url = https://github.com/boostorg/tuple
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
