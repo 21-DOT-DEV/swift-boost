@@ -140,8 +140,8 @@ subtrees:
 - name: io
   remote: https://github.com/boostorg/io
   prefix: Vendor/io
-  commit: 932dd480263d06d00bf4b40a323dc3f4ace266e2
-  branch: boost-1.81.0
+  commit: 342e4c6d10d586058818daa84201a2d301357a53
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
