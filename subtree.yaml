@@ -239,8 +239,8 @@ subtrees:
 - name: serialization
   remote: https://github.com/boostorg/serialization
   prefix: Vendor/serialization
-  commit: 0ca603daf99888bf059c01ae1bab1b27dbc35ebe
-  branch: boost-1.81.0
+  commit: a20c4d97c37e5f437c8ba78f296830edb79cff9e
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
