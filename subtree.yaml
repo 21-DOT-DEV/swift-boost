@@ -111,8 +111,8 @@ subtrees:
 - name: foreach
   remote: https://github.com/boostorg/foreach
   prefix: Vendor/foreach
-  commit: cc2f75ae30492b9de69b3b692f5c59afcb7dea5e
-  branch: boost-1.81.0
+  commit: 904451bb8b094b426a69fbf33825c06677f2835f
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
