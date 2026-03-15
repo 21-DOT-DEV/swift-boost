@@ -31,9 +31,6 @@
 [submodule "Submodules/optional"]
 	path = Submodules/optional
 	url = https://github.com/boostorg/optional
-[submodule "Submodules/multi_index"]
-	path = Submodules/multi_index
-	url = https://github.com/boostorg/multi_index
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility

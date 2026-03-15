@@ -197,3 +197,6 @@ subtrees:
   commit: 288216448cbe55b00106cf68aa45f87da7255b20
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/multi_index/
