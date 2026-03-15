@@ -194,8 +194,8 @@ subtrees:
 - name: multi_index
   remote: https://github.com/boostorg/multi_index
   prefix: Vendor/multi_index
-  commit: 288216448cbe55b00106cf68aa45f87da7255b20
-  branch: boost-1.81.0
+  commit: 90697ee83e4a1c144dc54da891a0a4be61c4f8b9
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
