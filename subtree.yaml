@@ -115,5 +115,11 @@ subtrees:
   branch: boost-1.77.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/foreach/
+- name: function
+  remote: https://github.com/boostorg/function
+  prefix: Vendor/function
+  commit: 16fca8368b5da14c4bcad977c2738dc6e482e1b7
+  branch: boost-1.80.0
+  squash: true
