@@ -1,86 +1,36 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
+let boostModules: [String] = [
+    "algorithm", "array", "assert", "bind", "concept_check", "config",
+    "container", "container_hash", "core", "date_time", "describe", "detail",
+    "foreach", "function", "integer", "io", "iterator", "lexical_cast",
+    "move", "mp11", "mpl", "multi_index", "numeric_conversion", "optional",
+    "preprocessor", "range", "serialization", "signals2", "smart_ptr",
+    "static_assert", "throw_exception", "tokenizer", "tuple", "type_index",
+    "type_traits", "utility", "variant",
+]
+
+let boostIncludePaths: (String) -> [CXXSetting] = { prefix in
+    boostModules.map { .headerSearchPath("\(prefix)\($0)/include") }
+}
+
 let package = Package(
     name: "Boost",
-    products: [
-        .library(name: "algorithm", targets: ["algorithm"]),
-        .library(name: "array", targets: ["array"]),
-        .library(name: "assert", targets: ["assert"]),
-        .library(name: "bind", targets: ["bind"]),
-        .library(name: "concept_check", targets: ["concept_check"]),
-        .library(name: "config", targets: ["config"]),
-        .library(name: "container", targets: ["container"]),
-        .library(name: "container_hash", targets: ["container_hash"]),
-        .library(name: "core", targets: ["core"]),
-        .library(name: "date_time", targets: ["date_time"]),
-        .library(name: "describe", targets: ["describe"]),
-        .library(name: "detail", targets: ["detail"]),
-        .library(name: "foreach", targets: ["foreach"]),
-        .library(name: "function", targets: ["function"]),
-        .library(name: "integer", targets: ["integer"]),
-        .library(name: "io", targets: ["io"]),
-        .library(name: "iterator", targets: ["iterator"]),
-        .library(name: "lexical_cast", targets: ["lexical_cast"]),
-        .library(name: "move", targets: ["move"]),
-        .library(name: "mp11", targets: ["mp11"]),
-        .library(name: "mpl", targets: ["mpl"]),
-        .library(name: "multi_index", targets: ["multi_index"]),
-        .library(name: "numeric_conversion", targets: ["numeric_conversion"]),
-        .library(name: "optional", targets: ["optional"]),
-        .library(name: "preprocessor", targets: ["preprocessor"]),
-        .library(name: "range", targets: ["range"]),
-        .library(name: "serialization", targets: ["serialization"]),
-        .library(name: "signals2", targets: ["signals2"]),
-        .library(name: "smart_ptr", targets: ["smart_ptr"]),
-        .library(name: "static_assert", targets: ["static_assert"]),
-        .library(name: "throw_exception", targets: ["throw_exception"]),
-        .library(name: "tokenizer", targets: ["tokenizer"]),
-        .library(name: "tuple", targets: ["tuple"]),
-        .library(name: "type_index", targets: ["type_index"]),
-        .library(name: "type_traits", targets: ["type_traits"]),
-        .library(name: "utility", targets: ["utility"]),
-        .library(name: "variant", targets: ["variant"]),
+    products: boostModules.map { .library(name: $0, targets: [$0]) },
+    dependencies: [
+        .package(url: "https://github.com/21-DOT-DEV/swift-plugin-subtree.git", exact: "0.0.12")
     ],
-    targets: [
-        .target(name: "algorithm"),
-        .target(name: "array"),
-        .target(name: "assert"),
-        .target(name: "bind"),
-        .target(name: "concept_check"),
-        .target(name: "config"),
-        .target(name: "container"),
-        .target(name: "container_hash"),
-        .target(name: "core"),
-        .target(name: "date_time"),
-        .target(name: "describe"),
-        .target(name: "detail"),
-        .target(name: "foreach"),
-        .target(name: "function"),
-        .target(name: "integer"),
-        .target(name: "io"),
-        .target(name: "iterator"),
-        .target(name: "lexical_cast"),
-        .target(name: "move"),
-        .target(name: "mp11"),
-        .target(name: "mpl"),
-        .target(name: "multi_index"),
-        .target(name: "numeric_conversion"),
-        .target(name: "optional"),
-        .target(name: "preprocessor"),
-        .target(name: "range"),
-        .target(name: "serialization"),
-        .target(name: "signals2"),
-        .target(name: "smart_ptr"),
-        .target(name: "static_assert"),
-        .target(name: "throw_exception"),
-        .target(name: "tokenizer"),
-        .target(name: "tuple"),
-        .target(name: "type_index"),
-        .target(name: "type_traits"),
-        .target(name: "utility"),
-        .target(name: "variant"),
-    ]
+    targets: boostModules.map { .target(name: $0) } + [
+        .target(name: "BoostTestHelpers", cxxSettings: boostIncludePaths("../")),
+        .testTarget(
+            name: "BoostTests",
+            dependencies: ["BoostTestHelpers"],
+            cxxSettings: boostIncludePaths("../../Sources/"),
+            swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
+    ],
+    cxxLanguageStandard: .cxx17
 )
