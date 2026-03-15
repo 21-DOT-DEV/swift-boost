@@ -2,7 +2,7 @@
 # subject to the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #
-# Copyright 2016-2022 Antony Polukhin.
+# Copyright 2016-2025 Antony Polukhin.
 
 #
 # See https://svn.boost.org/trac/boost/wiki/TravisCoverals for description of this file
@@ -32,9 +32,6 @@ skip_tags: true
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      TOOLSET: msvc-9.0,msvc-10.0,msvc-11.0,msvc-12.0
-      ADDRMD: 32
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       TOOLSET: msvc-14.1,clang-win
       CXXSTD: 14,17
@@ -64,11 +61,11 @@ before_build:
     - set BOOST=C:/boost-local
     - git clone -b %BOOST_BRANCH% --depth 10 https://github.com/boostorg/boost.git %BOOST%
     - cd %BOOST%
-    - git submodule update --init --depth 10 tools/build tools/boostdep libs/unordered # Boost.TypeIndex examples need Boost.Unordered
+    - git submodule update --init --depth 10 tools/build tools/boostdep
 
     - rm -rf %BOOST%/libs/%BOOST_LIBS_FOLDER%
     - mv -f %APPVEYOR_BUILD_FOLDER% %BOOST%/libs/%BOOST_LIBS_FOLDER%
-    - python tools/boostdep/depinst/depinst.py --git_args "--depth 10 --jobs 2" %BOOST_LIBS_FOLDER%
+    - python tools/boostdep/depinst/depinst.py --include examples --git_args "--depth 10 --jobs 2" %BOOST_LIBS_FOLDER%
 
 build_script:
     - cmd /c bootstrap

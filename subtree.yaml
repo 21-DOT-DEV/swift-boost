@@ -302,8 +302,8 @@ subtrees:
 - name: type_index
   remote: https://github.com/boostorg/type_index
   prefix: Vendor/type_index
-  commit: cca370a91834d331e3143ac4d023fb0f178e512b
-  branch: boost-1.81.0
+  commit: f2a3bdd29cc20ca2c4f9ee0916b7da6dbaaaaa28
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}

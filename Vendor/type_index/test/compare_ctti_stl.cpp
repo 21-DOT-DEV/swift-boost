@@ -1,5 +1,5 @@
 // Copyright Klemens Morgenstern, 2012-2015.
-// Copyright 2019-2022 Antony Polukhin.
+// Copyright 2019-2025 Antony Polukhin.
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
@@ -34,8 +34,8 @@ void compare()
     typedef boost::typeindex::ctti_type_index ctti;
     typedef boost::typeindex::stl_type_index stl;
     BOOST_TEST_EQ(
-        ctti::type_id<int>().pretty_name(),
-        stl::type_id<int>().pretty_name()
+        ctti::type_id<T>().pretty_name(),
+        stl::type_id<T>().pretty_name()
     );
 }
 
@@ -44,14 +44,15 @@ int main()
 {
     compare<void>();
     compare<int>();
-    compare<double*>();
     compare<const double&>();
+
+#ifndef _MSC_VER  // may add `class` to the type name
     compare<my_namespace1::my_class>();
 
     compare<my_namespace3::my_template<
             my_namespace1::my_class,
             my_namespace2::my_class> >();
-
+#endif
 
     return boost::report_errors();
 }
