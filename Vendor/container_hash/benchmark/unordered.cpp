@@ -3,12 +3,22 @@
 // https://www.boost.org/LICENSE_1_0.txt
 
 #define _CRT_SECURE_NO_WARNINGS
+#define _SILENCE_CXX20_CISO646_REMOVED_WARNING
 
 #include <boost/container_hash/hash.hpp>
 #include <boost/unordered_set.hpp>
 #include <boost/core/detail/splitmix64.hpp>
 #include <boost/core/type_name.hpp>
 #include <boost/config.hpp>
+#ifdef HAVE_ABSEIL
+# include "absl/hash/hash.h"
+#endif
+#ifdef HAVE_ANKERL_UNORDERED_DENSE
+# include "ankerl/unordered_dense.h"
+#endif
+#ifdef HAVE_MULXP_HASH
+# include "mulxp_hash.hpp"
+#endif
 #include <cstddef>
 #include <cstdio>
 #include <cstdint>
@@ -19,10 +29,8 @@
 
 // mul31_hash
 
-class mul31_hash
+struct mul31_hash
 {
-public:
-
     std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
     {
         char const * p = st.data();
@@ -43,18 +51,20 @@ public:
     }
 };
 
-// mul31_unrolled_hash
+// mul31_x4_hash
 
-template<int Bits> struct mul31_unrolled_hash_impl;
-
-template<> struct mul31_unrolled_hash_impl<32>
+struct mul31_x4_hash
 {
     std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
     {
         char const * p = st.data();
         std::size_t n = st.size();
 
+#if SIZE_MAX > UINT32_MAX
+        std::size_t h = 0xCBF29CE484222325ull;
+#else
         std::size_t h = 0x811C9DC5u;
+#endif
 
         while( n >= 4 )
         {
@@ -80,14 +90,20 @@ template<> struct mul31_unrolled_hash_impl<32>
     }
 };
 
-template<> struct mul31_unrolled_hash_impl<64>
+// mul31_x8_hash
+
+struct mul31_x8_hash
 {
     std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
     {
         char const * p = st.data();
         std::size_t n = st.size();
 
-        std::size_t h = 0xCBF29CE484222325ull;
+#if SIZE_MAX > UINT32_MAX
+        boost::uint64_t h = 0xCBF29CE484222325ull;
+#else
+        boost::uint64_t h = 0x811C9DC5u;
+#endif
 
         while( n >= 8 )
         {
@@ -113,11 +129,9 @@ template<> struct mul31_unrolled_hash_impl<64>
             --n;
         }
 
-        return h;
+        return static_cast<std::size_t>( h );
     }
 };
-
-struct mul31_unrolled_hash: mul31_unrolled_hash_impl< std::numeric_limits<std::size_t>::digits > {};
 
 // fnv1a_hash
 
@@ -163,27 +177,43 @@ template<> struct fnv1a_hash_impl<64>
 
 struct fnv1a_hash: fnv1a_hash_impl< std::numeric_limits<std::size_t>::digits > {};
 
-// old_boost_hash
+// mulxp_hash
 
-class old_boost_hash
+#ifdef HAVE_MULXP_HASH
+
+struct mulxp1_hash_
 {
-public:
-
     std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
     {
-        char const * p = st.data();
-        std::size_t n = st.size();
-
-        std::size_t h = 0;
-
-        for( std::size_t i = 0; i < n; ++i )
-        {
-            h ^= static_cast<unsigned char>( p[i] ) + 0x9e3779b9 + ( h << 6 ) + ( h >> 2 );
-        }
-
-        return h;
+        return mulxp1_hash( (unsigned char const*)st.data(), st.size(), 0 );
     }
 };
+
+struct mulxp3_hash_
+{
+    std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
+    {
+        return mulxp3_hash( (unsigned char const*)st.data(), st.size(), 0 );
+    }
+};
+
+struct mulxp1_hash32_
+{
+    std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
+    {
+        return mulxp1_hash32( (unsigned char const*)st.data(), st.size(), 0 );
+    }
+};
+
+struct mulxp3_hash32_
+{
+    std::size_t operator()( std::string const& st ) const BOOST_NOEXCEPT
+    {
+        return mulxp3_hash32( (unsigned char const*)st.data(), st.size(), 0 );
+    }
+};
+
+#endif
 
 // test_hash_speed
 
@@ -210,11 +240,11 @@ template<class H, class V> void test_hash_speed( int N, V const& v )
 
 #if defined( _MSC_VER )
 
-    std::printf( "%25s : q=%20Iu, %lld ms\n", hash.c_str(), q, ms1 );
+    std::printf( "%57s : q=%20Iu, %lld ms\n", hash.c_str(), q, ms1 );
 
 #else
 
-    std::printf( "%25s : q=%20zu, %lld ms\n", hash.c_str(), q, ms1 );
+    std::printf( "%57s : q=%20zu, %lld ms\n", hash.c_str(), q, ms1 );
 
 #endif
 }
@@ -235,11 +265,11 @@ template<class H, class V> void test_hash_collision( int N, V const& v, std::siz
 
 #if defined( _MSC_VER )
 
-    std::printf( "%25s : c=%Iu\n", hash.c_str(), n - s.size() );
+    std::printf( "%57s : c=%Iu\n", hash.c_str(), n - s.size() );
 
 #else
 
-    std::printf( "%25s : c=%zu\n", hash.c_str(), n - s.size() );
+    std::printf( "%57s : c=%zu\n", hash.c_str(), n - s.size() );
 
 #endif
 }
@@ -292,11 +322,11 @@ template<class V, class S> void test4( int N, V const& v, char const * hash, S s
 
 #if defined( _MSC_VER )
 
-    std::printf( "%25s : n=%Iu, m=%Iu, c=%Iu, q=%Iu, %lld + %lld ms\n", hash, n, m, c, q, ms1, ms2 );
+    std::printf( "%57s : n=%Iu, m=%Iu, c=%Iu, q=%Iu, %4lld + %4lld = %4lld ms\n", hash, n, m, c, q, ms1, ms2, ms1 + ms2 );
 
 #else
 
-    std::printf( "%25s : n=%zu, m=%zu, c=%zu, q=%zu, %lld + %lld ms\n", hash, n, m, c, q, ms1, ms2 );
+    std::printf( "%57s : n=%zu, m=%zu, c=%zu, q=%zu, %4lld + %4lld = %4lld ms\n", hash, n, m, c, q, ms1, ms2, ms1 + ms2 );
 
 #endif
 }
@@ -326,11 +356,11 @@ int main()
 
             if( k & 1 )
             {
-                sprintf( buffer, "prefix_%llu_suffix", k );
+                std::snprintf( buffer, sizeof( buffer ), "prefix_%llu_suffix", k );
             }
             else
             {
-                sprintf( buffer, "{%u}", static_cast<unsigned>( k ) );
+                std::snprintf( buffer, sizeof( buffer ), "{%u}", static_cast<unsigned>( k ) );
             }
 
             v.push_back( buffer );
@@ -340,11 +370,23 @@ int main()
     std::puts( "Hash speed test:\n" );
 
     test_hash_speed<mul31_hash>( N * 16, v );
-    test_hash_speed<mul31_unrolled_hash>( N * 16, v );
+    test_hash_speed<mul31_x4_hash>( N * 16, v );
+    test_hash_speed<mul31_x8_hash>( N * 16, v );
     test_hash_speed<fnv1a_hash>( N * 16, v );
-    test_hash_speed<old_boost_hash>( N * 16, v );
     test_hash_speed<boost::hash<std::string> >( N * 16, v );
     test_hash_speed<std::hash<std::string> >( N * 16, v );
+#ifdef HAVE_ABSEIL
+    test_hash_speed<absl::Hash<std::string> >( N * 16, v );
+#endif
+#ifdef HAVE_ANKERL_UNORDERED_DENSE
+    test_hash_speed<ankerl::unordered_dense::hash<std::string> >( N * 16, v );
+#endif
+#ifdef HAVE_MULXP_HASH
+    test_hash_speed<mulxp1_hash_>( N * 16, v );
+    test_hash_speed<mulxp3_hash_>( N * 16, v );
+    test_hash_speed<mulxp1_hash32_>( N * 16, v );
+    test_hash_speed<mulxp3_hash32_>( N * 16, v );
+#endif
 
     std::puts( "" );
 
@@ -365,25 +407,55 @@ int main()
         }
 
         test_hash_collision<mul31_hash>( N * 16, v, n );
-        test_hash_collision<mul31_unrolled_hash>( N * 16, v, n );
+        test_hash_collision<mul31_x4_hash>( N * 16, v, n );
+        test_hash_collision<mul31_x8_hash>( N * 16, v, n );
         test_hash_collision<fnv1a_hash>( N * 16, v, n );
-        test_hash_collision<old_boost_hash>( N * 16, v, n );
         test_hash_collision<boost::hash<std::string> >( N * 16, v, n );
         test_hash_collision<std::hash<std::string> >( N * 16, v, n );
+#ifdef HAVE_ABSEIL
+        test_hash_collision<absl::Hash<std::string> >( N * 16, v, n );
+#endif
+#ifdef HAVE_ANKERL_UNORDERED_DENSE
+        test_hash_collision<ankerl::unordered_dense::hash<std::string> >( N * 16, v, n );
+#endif
+#ifdef HAVE_MULXP_HASH
+        test_hash_collision<mulxp1_hash_>( N * 16, v, n );
+        test_hash_collision<mulxp3_hash_>( N * 16, v, n );
+        test_hash_collision<mulxp1_hash32_>( N * 16, v, n );
+        test_hash_collision<mulxp3_hash32_>( N * 16, v, n );
+#endif
     }
 
     std::puts( "" );
 
     typedef std::string K;
 
-    std::puts( "Container speed test:\n" );
+    std::puts( "Container speed test:\n---\n" );
 
     test_container_speed<K, mul31_hash>( N, v );
-    test_container_speed<K, mul31_unrolled_hash>( N, v );
+    test_container_speed<K, mul31_x4_hash>( N, v );
+    test_container_speed<K, mul31_x8_hash>( N, v );
     test_container_speed<K, fnv1a_hash>( N, v );
-    test_container_speed<K, old_boost_hash>( N, v );
     test_container_speed<K, boost::hash<std::string> >( N, v );
     test_container_speed<K, std::hash<std::string> >( N, v );
+#ifdef HAVE_ABSEIL
+    test_container_speed<K, absl::Hash<std::string> >( N, v );
+#endif
+#ifdef HAVE_ANKERL_UNORDERED_DENSE
+    test_container_speed<K, ankerl::unordered_dense::hash<std::string> >( N, v );
+#endif
+#ifdef HAVE_MULXP_HASH
+    test_container_speed<K, mulxp1_hash_>( N, v );
+    test_container_speed<K, mulxp3_hash_>( N, v );
+    test_container_speed<K, mulxp1_hash32_>( N, v );
+    test_container_speed<K, mulxp3_hash32_>( N, v );
+#endif
 
     std::puts( "" );
 }
+
+#ifdef HAVE_ABSEIL
+# include "absl/hash/internal/hash.cc"
+# include "absl/hash/internal/low_level_hash.cc"
+# include "absl/hash/internal/city.cc"
+#endif

@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Glen Joseph Fernandes
+Copyright 2019-2023 Glen Joseph Fernandes
 (glenjofe@gmail.com)
 
 Distributed under the Boost Software License, Version 1.0.
@@ -8,10 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_CORE_SPAN_HPP
 #define BOOST_CORE_SPAN_HPP
 
+#include <boost/core/detail/assert.hpp>
+#include <boost/core/data.hpp>
 #include <array>
 #include <iterator>
 #include <type_traits>
-#include <cstddef>
 
 namespace boost {
 
@@ -22,9 +23,15 @@ class span;
 
 namespace detail {
 
-template<class U, class T>
+template<class U, class T, class = void>
 struct span_convertible {
-    static constexpr bool value = std::is_convertible<U(*)[], T(*)[]>::value;
+    static constexpr bool value = false;
+};
+
+template<class U, class T>
+struct span_convertible<U, T, typename
+    std::enable_if<std::is_convertible<U(*)[], T(*)[]>::value>::type> {
+    static constexpr bool value = true;
 };
 
 template<std::size_t E, std::size_t N>
@@ -39,10 +46,8 @@ struct span_compatible {
 };
 
 template<class T>
-struct span_uncvref {
-    typedef typename std::remove_cv<typename
-        std::remove_reference<T>::type>::type type;
-};
+using span_uncvref = typename std::remove_cv<typename
+    std::remove_reference<T>::type>::type;
 
 template<class>
 struct span_is_span {
@@ -64,15 +69,16 @@ struct span_is_array<std::array<T, N> > {
     static constexpr bool value = true;
 };
 
+template<class T>
+using span_ptr = decltype(boost::data(std::declval<T&>()));
+
 template<class, class = void>
 struct span_data { };
 
 template<class T>
 struct span_data<T,
-    typename std::enable_if<std::is_pointer<decltype(std::declval<T
-        &>().data())>::value>::type> {
-    typedef typename std::remove_pointer<decltype(std::declval<T
-        &>().data())>::type type;
+    typename std::enable_if<std::is_pointer<span_ptr<T> >::value>::type> {
+    typedef typename std::remove_pointer<span_ptr<T> >::type type;
 };
 
 template<class, class, class = void>
@@ -102,9 +108,9 @@ template<class R, class T>
 struct span_is_range {
     static constexpr bool value = (std::is_const<T>::value ||
         std::is_lvalue_reference<R>::value) &&
-        !span_is_span<typename span_uncvref<R>::type>::value &&
-        !span_is_array<typename span_uncvref<R>::type>::value &&
-        !std::is_array<typename span_uncvref<R>::type>::value &&
+        !span_is_span<span_uncvref<R> >::value &&
+        !span_is_array<span_uncvref<R> >::value &&
+        !std::is_array<span_uncvref<R> >::value &&
         span_has_data<R, T>::value &&
         span_has_size<R>::value;
 };
@@ -224,15 +230,16 @@ public:
     template<class R,
         typename std::enable_if<E == dynamic_extent &&
             detail::span_is_range<R, T>::value, int>::type = 0>
-    constexpr span(R&& r) noexcept(noexcept(r.data()) && noexcept(r.size()))
-        : s_(r.data(), r.size()) { }
+    constexpr span(R&& r) noexcept(noexcept(boost::data(r)) &&
+        noexcept(r.size()))
+        : s_(boost::data(r), r.size()) { }
 
     template<class R,
         typename std::enable_if<E != dynamic_extent &&
             detail::span_is_range<R, T>::value, int>::type = 0>
-    explicit constexpr span(R&& r) noexcept(noexcept(r.data()) &&
+    explicit constexpr span(R&& r) noexcept(noexcept(boost::data(r)) &&
         noexcept(r.size()))
-        : s_(r.data(), r.size()) { }
+        : s_(boost::data(r), r.size()) { }
 
     template<class U, std::size_t N,
         typename std::enable_if<detail::span_implicit<E, N>::value &&
@@ -274,17 +281,21 @@ public:
     }
 
     constexpr span<T, dynamic_extent> first(size_type c) const {
-        return span<T, dynamic_extent>(s_.p, c);
+        return BOOST_CORE_DETAIL_ASSERT(c <= size()),
+            span<T, dynamic_extent>(s_.p, c);
     }
 
     constexpr span<T, dynamic_extent> last(size_type c) const {
-        return span<T, dynamic_extent>(s_.p + (s_.n - c), c);
+        return BOOST_CORE_DETAIL_ASSERT(c <= size()),
+            span<T, dynamic_extent>(s_.p + (s_.n - c), c);
     }
 
     constexpr span<T, dynamic_extent> subspan(size_type o,
         size_type c = dynamic_extent) const {
-        return span<T, dynamic_extent>(s_.p + o,
-            c == dynamic_extent ? s_.n - o : c);
+        return BOOST_CORE_DETAIL_ASSERT(o <= size() &&
+                (c == dynamic_extent || c + o <= size())),
+            span<T, dynamic_extent>(s_.p + o,
+                c == dynamic_extent ? s_.n - o : c);
     }
 
     constexpr size_type size() const noexcept {
@@ -300,15 +311,15 @@ public:
     }
 
     constexpr reference operator[](size_type i) const {
-        return s_.p[i];
+        return BOOST_CORE_DETAIL_ASSERT(i < size()), s_.p[i];
     }
 
     constexpr reference front() const {
-        return *s_.p;
+        return BOOST_CORE_DETAIL_ASSERT(!empty()), *s_.p;
     }
 
     constexpr reference back() const {
-        return s_.p[s_.n - 1];
+        return BOOST_CORE_DETAIL_ASSERT(!empty()), s_.p[s_.n - 1];
     }
 
     constexpr pointer data() const noexcept {
@@ -351,8 +362,10 @@ private:
     detail::span_store<T, E> s_;
 };
 
+#if defined(BOOST_NO_CXX17_INLINE_VARIABLES)
 template<class T, std::size_t E>
 constexpr std::size_t span<T, E>::extent;
+#endif
 
 #ifdef __cpp_deduction_guides
 template<class I, class L>

@@ -1,7 +1,7 @@
 ////
 Copyright 2005-2008 Daniel James
 Copyright 2022 Christian Mazakas
-Copyright 2022 Peter Dimov
+Copyright 2022, 2025 Peter Dimov
 Distributed under the Boost Software License, Version 1.0.
 https://www.boost.org/LICENSE_1_0.txt
 ////
@@ -30,6 +30,7 @@ template<class T> struct is_range;
 template<class T> struct is_contiguous_range;
 template<class T> struct is_unordered_range;
 template<class T> struct is_described_class;
+template<class T> struct is_tuple_like;
 
 } // namespace container_hash
 
@@ -42,6 +43,8 @@ template<class It> std::size_t hash_range( It first, It last );
 
 template<class It> void hash_unordered_range( std::size_t& seed, It first, It last );
 template<class It> std::size_t hash_unordered_range( It first, It last );
+
+template<class Hash> struct hash_is_avalanching;
 
 } // namespace boost
 ----
@@ -89,8 +92,9 @@ template<class T>
 template<class A, class B>
   std::size_t hash_value( std::pair<A, B> const& v );
 
-template<class... T>
-  std::size_t hash_value( std::tuple<T...> const& v );
+// Enabled only when container_hash::is_tuple_like<T>::value is true
+template<class T>
+  std::size_t hash_value( T const& v );
 
 // Enabled only when container_hash::is_range<T>::value is true
 template<class T>
@@ -240,10 +244,15 @@ for( ; first != last; ++first )
 }
 ----
 
-Otherwise, bytes from `[first, last)` are coalesced in an unspecified manner
-and then passed to `hash_combine`, more than one at a time. This is done in
-order to improve performance when hashing strings.
+Otherwise, bytes from `[first, last)` are coalesced and hashed in an
+unspecified manner. This is done in order to improve performance when hashing
+strings.
 --
+
+Remarks: ::
+  For chars, the current implementation uses
+  https://github.com/pdimov/mulxp_hash[`mulxp1_hash`] when `std::size_t` is
+  64 bit, and `mulxp1_hash32` when it's 32 bit.
 
 [source]
 ----
@@ -385,8 +394,9 @@ return seed;
 
 [source]
 ----
-template<class... T>
-  std::size_t hash_value( std::tuple<T...> const& v );
+// Enabled only when container_hash::is_tuple_like<T>::value is true
+template<class T>
+  std::size_t hash_value( T const& v );
 ----
 
 Effects: ::
@@ -395,15 +405,21 @@ Effects: ::
 ----
 std::size_t seed = 0;
 
-boost::hash_combine( seed, std::get<0>(v) );
-boost::hash_combine( seed, std::get<1>(v) );
+using std::get;
+
+boost::hash_combine( seed, get<0>(v) );
+boost::hash_combine( seed, get<1>(v) );
 // ...
-boost::hash_combine( seed, std::get<N-1>(v) );
+boost::hash_combine( seed, get<N-1>(v) );
 
 return seed;
 ----
 +
-where `N` is `sizeof...(T)`.
+where `N` is `std::tuple_size<T>::value`.
+
+Remarks: ::
+This overload is only enabled when
+`container_hash::is_range<T>::value` is `false`.
 
 [source]
 ----
@@ -558,6 +574,56 @@ where `x` is the currently contained value in `v`.
 Throws: ::
 `std::bad_variant_access` when `v.valueless_by_exception()` is `true`.
 
+== <boost/container_hash/{zwsp}hash_is_avalanching.hpp>
+
+Defines the trait `boost::hash_is_avalanching`.
+
+[source]
+----
+namespace boost
+{
+
+template<class Hash> struct hash_is_avalanching;
+
+} // namespace boost
+----
+
+=== hash_is_avalanching<Hash>
+
+[source]
+----
+template<class Hash> struct hash_is_avalanching
+{
+    static constexpr bool value = /* see below */;
+};
+----
+
+`hash_is_avalanching<Hash>::value` is:
+
+* `false` if `Hash::is_avalanching` is not present,
+* `Hash::is_avalanching::value` if this is present and convertible at compile time to a `bool`,
+* `true` if `Hash::is_avalanching` is `void` (this usage is deprecated),
+* ill-formed otherwise.
+
+A hash function is said to have the _avalanching property_ if small changes
+in the input translate to large changes in the returned hash code
+&#8212;ideally, flipping one bit in the representation of the input value results
+in each bit of the hash code flipping with probability 50%. Libraries
+such as link:../../../unordered/index.html[Boost.Unordered] consult this trait
+to determine if the supplied hash function is of high quality.
+`boost::hash` for `std::basic_string<Ch>` and `std::basic_string_view<Ch>`
+has this trait set to `true` when `Ch` is an integral type (this includes
+`std::string` and `std::string_view`, among others).
+Users can set this trait for a particular `Hash` type by:
+
+* Inserting the nested `is_avalanching` typedef in the class definition
+if they have access to its source code.
+* Writing a specialization of `boost::hash_is_avalanching`
+for `Hash`.
+
+Note that usage of this trait is not restricted to hash functions produced
+with Boost.ContainerHash.
+
 == <boost/container_hash/{zwsp}is_range.hpp>
 
 Defines the trait `boost::container_hash::is_range`.
@@ -702,4 +768,39 @@ template<class T> struct is_described_class
 `T` is not a union.
 
 Users are allowed to specialize `is_described_class` for their types
+if the default behavior does not deduce the correct value.
+
+== <boost/container_hash/{zwsp}is_tuple_like.hpp>
+
+Defines the trait `boost::container_hash::is_tuple_like`.
+
+[source]
+----
+namespace boost
+{
+
+namespace container_hash
+{
+
+template<class T> struct is_tuple_like;
+
+} // namespace container_hash
+
+} // namespace boost
+----
+
+=== is_tuple_like<T>
+
+[source]
+----
+template<class T> struct is_tuple_like
+{
+    static constexpr bool value = /* see below */;
+};
+----
+
+`is_tuple_like<T>::value` is `true` when `std::tuple_size<T>::value`
+is valid.
+
+Users are allowed to specialize `is_tuple_like` for their types
 if the default behavior does not deduce the correct value.

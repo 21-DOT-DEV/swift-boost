@@ -6,23 +6,37 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
+require-b2 5.0.1 ;
+import-search /boost/config/checks ;
+import config : requires ;
 import modules ;
 import testing ;
 
 project : requirements
-
+  <library>/boost/core//boost_core
+  <library>/boost/static_assert//boost_static_assert
+  <library>/boost/type_traits//boost_type_traits
   <warnings>extra
   <toolset>msvc:<warnings-as-errors>on
   <toolset>clang:<warnings-as-errors>on
-  # https://github.com/boostorg/type_traits/issues/173
-  <toolset>clang-15:<cxxflags>-Wno-deprecated-builtins
   <toolset>gcc:<warnings-as-errors>on
   <toolset>gcc-4.4:<cxxflags>-Wno-sign-compare ;
 
-local warning-as-errors-off =
+local warnings-as-errors-off =
     "-<toolset>msvc:<warnings-as-errors>on"
     "-<toolset>gcc:<warnings-as-errors>on"
     "-<toolset>clang:<warnings-as-errors>on" ;
+
+local pedantic-errors = <warnings>pedantic
+    <toolset>gcc:<cxxflags>"-Wconversion"
+    <toolset>gcc:<cxxflags>"-Wsign-conversion"
+    <toolset>clang:<cxxflags>"-Wconversion"
+    <toolset>clang:<cxxflags>"-Wsign-conversion"
+    <toolset>msvc:<warnings-as-errors>on
+    <toolset>gcc:<warnings-as-errors>on
+    <toolset>clang:<warnings-as-errors>on ;
+
+local CPP11 = [ requires cxx11_variadic_templates cxx11_template_aliases cxx11_decltype cxx11_constexpr cxx11_noexcept cxx11_ref_qualifiers ] ;
 
 # quick test (for CI)
 run quick.cpp ;
@@ -34,61 +48,66 @@ run addressof_np_test.cpp ;
 run addressof_fn_test.cpp ;
 compile addressof_constexpr_test.cpp ;
 compile-fail addressof_fail_rvalue.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 
-run checked_delete_test.cpp ;
+run checked_delete_test.cpp
+  : : : $(pedantic-errors) ;
 compile-fail checked_delete_fail.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail checked_delete_fail2.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
+compile-fail checked_deleter_compile_fail_adl.cpp
+  : $(warnings-as-errors-off) ;
+compile-fail checked_array_deleter_compile_fail_adl.cpp
+  : $(warnings-as-errors-off) ;
 
 compile ref_ct_test.cpp ;
 run ref_test.cpp ;
 run ref_ref_test.cpp ;
 run ref_fn_test.cpp ;
 compile-fail ref_rv_fail1.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_rv_fail2.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_rv_fail3.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_rv_fail4.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_rv_fail5.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_implicit_fail.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_implicit_fail2.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_implicit_fail3.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail ref_implicit_fail4.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 run ref_cv_test.cpp ;
 run ref_conversion_test.cpp ;
 
-run eif_constructors.cpp : ;
-run eif_dummy_arg_disambiguation.cpp : ;
-run eif_lazy.cpp : ;
-run eif_lazy_test.cpp : ;
-run eif_member_templates.cpp : ;
-run eif_namespace_disambiguation.cpp : ;
-run eif_no_disambiguation.cpp : ;
-run eif_partial_specializations.cpp : ;
+run eif_constructors.cpp ;
+run eif_dummy_arg_disambiguation.cpp ;
+run eif_lazy.cpp ;
+run eif_lazy_test.cpp ;
+run eif_member_templates.cpp ;
+run eif_namespace_disambiguation.cpp ;
+run eif_no_disambiguation.cpp ;
+run eif_partial_specializations.cpp ;
 
 compile-fail noncopyable_compile_fail.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 
 run explicit_operator_bool.cpp ;
 run explicit_operator_bool_noexcept.cpp ;
 compile-fail explicit_operator_bool_compile_fail_conv_int.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail explicit_operator_bool_compile_fail_conv_pvoid.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail explicit_operator_bool_compile_fail_delete.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail explicit_operator_bool_compile_fail_shift.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 
 compile ignore_unused_test.cpp ;
 
@@ -98,11 +117,6 @@ run sp_typeinfo_test.cpp : : : <rtti>off : sp_typeinfo_test_no_rtti ;
 run visit_each_test.cpp ;
 
 run get_pointer_test.cpp ;
-
-local pedantic-errors = <warnings>pedantic
-    <toolset>msvc:<warnings-as-errors>on
-    <toolset>gcc:<warnings-as-errors>on
-    <toolset>clang:<warnings-as-errors>on ;
 
 run lightweight_test_test.cpp
   : : : $(pedantic-errors) ;
@@ -150,6 +164,7 @@ run-fail lightweight_test_fail12.cpp ;
 run-fail lightweight_test_fail13.cpp ;
 run-fail lightweight_test_fail14.cpp ;
 run-fail lightweight_test_fail15.cpp ;
+run-fail lightweight_test_fail16.cpp : ;
 run-fail lightweight_test_lt_fail.cpp ;
 run-fail lightweight_test_le_fail.cpp ;
 run-fail lightweight_test_gt_fail.cpp ;
@@ -180,13 +195,28 @@ run demangled_name_test.cpp : : : <rtti>off <test-info>always_show_run_output : 
 
 run scoped_enum.cpp ;
 compile-fail scoped_enum_compile_fail_conv_from_int.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 compile-fail scoped_enum_compile_fail_conv_to_int.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
 
 run underlying_type.cpp ;
 
-run fclose_deleter_test.cpp : : : <target-os>windows:<define>_CRT_SECURE_NO_WARNINGS <target-os>windows:<define>_CRT_SECURE_NO_DEPRECATE ;
+compile-fail null_deleter_compile_fail_adl.cpp
+  : $(warnings-as-errors-off) ;
+
+run fclose_deleter_test.cpp : : :
+  $(CPP11)
+  <library>/boost/move//boost_move
+  <library>/boost/smart_ptr//boost_smart_ptr
+  <target-os>windows:<define>_CRT_SECURE_NO_WARNINGS
+  <target-os>windows:<define>_CRT_SECURE_NO_DEPRECATE ;
+
+compile-fail fclose_deleter_compile_fail_adl.cpp
+  : <target-os>windows:<define>_CRT_SECURE_NO_WARNINGS <target-os>windows:<define>_CRT_SECURE_NO_DEPRECATE $(warnings-as-errors-off) ;
+
+run functor_test.cpp ;
+compile-fail functor_compile_fail_adl.cpp
+  : $(warnings-as-errors-off) ;
 
 run pointer_traits_pointer_test.cpp ;
 run pointer_traits_element_type_test.cpp ;
@@ -208,6 +238,8 @@ run empty_value_test.cpp ;
 run empty_value_size_test.cpp ;
 run empty_value_final_test.cpp ;
 run empty_value_constexpr_test.cpp ;
+compile empty_value_nested_test.cpp ;
+compile-fail empty_value_compile_fail_casting.cpp ;
 
 run quick_exit_test.cpp ;
 run-fail quick_exit_fail.cpp ;
@@ -250,6 +282,7 @@ run allocator_destroy_test.cpp ;
 run allocator_construct_n_test.cpp ;
 run allocator_destroy_n_test.cpp ;
 run allocator_traits_test.cpp ;
+compile allocator_pmr_test.cpp ;
 
 lib lib_typeid : lib_typeid.cpp : <link>shared:<define>LIB_TYPEID_DYN_LINK=1 ;
 
@@ -297,51 +330,95 @@ run bit_popcount_test.cpp
   : : : $(pedantic-errors) ;
 run bit_endian_test.cpp
   : : : $(pedantic-errors) ;
+run bit_byteswap_test.cpp
+  : : : $(pedantic-errors) ;
 
 compile-fail bit_width_fail.cpp
   : <warnings>off ;
 
+compile bit_cast_test_cx.cpp ;
+compile bit_rotate_test_cx.cpp ;
+compile bit_countr_test_cx.cpp ;
+compile bit_countl_test_cx.cpp ;
+compile bit_width_test_cx.cpp ;
+compile has_single_bit_test_cx.cpp ;
+compile bit_floor_test_cx.cpp ;
+compile bit_ceil_test_cx.cpp ;
+compile bit_popcount_test_cx.cpp ;
+compile bit_byteswap_test_cx.cpp ;
+
 run type_name_test.cpp ;
 
-run sv_types_test.cpp ;
-run sv_construct_test.cpp ;
-run sv_iteration_test.cpp ;
-run sv_element_access_test.cpp ;
-run sv_modifiers_test.cpp ;
-run sv_copy_test.cpp ;
-run sv_substr_test.cpp ;
-run sv_compare_test.cpp ;
-run sv_starts_with_test.cpp ;
-run sv_ends_with_test.cpp ;
-run sv_find_test.cpp ;
-run sv_rfind_test.cpp ;
+run snprintf_test.cpp ;
+
+run sv_types_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_construct_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_iteration_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_element_access_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_modifiers_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_copy_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_substr_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_compare_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_starts_with_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_ends_with_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_find_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_rfind_test.cpp
+  : : : $(pedantic-errors) ;
 run sv_find_first_of_test.cpp
-  : : : <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
+  : : : $(pedantic-errors) <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
 run sv_find_last_of_test.cpp
-  : : : <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
+  : : : $(pedantic-errors) <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
 run sv_find_first_not_of_test.cpp
-  : : : <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
+  : : : $(pedantic-errors) <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
 run sv_find_last_not_of_test.cpp
-  : : : <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
-run sv_contains_test.cpp ;
-run sv_eq_test.cpp ;
-run sv_lt_test.cpp ;
-run sv_stream_insert_test.cpp ;
-run sv_conversion_test.cpp ;
-run sv_conversion_test2.cpp : ;
-run sv_common_reference_test.cpp ;
+  : : : $(pedantic-errors) <toolset>gcc-4.4:<cxxflags>-Wno-type-limits ;
+run sv_contains_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_eq_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_lt_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_stream_insert_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_conversion_test.cpp
+  : : : $(pedantic-errors) ;
+run sv_conversion_test2.cpp : : : <library>/boost/utility//boost_utility ;
+run sv_common_reference_test.cpp
+  : : : $(pedantic-errors) ;
 compile sv_common_reference_test2.cpp ;
 compile sv_windows_h_test.cpp ;
 compile-fail sv_nullptr_fail.cpp
-  : $(warning-as-errors-off) ;
+  : $(warnings-as-errors-off) ;
+
+compile sv_construct_test_cx.cpp ;
+compile sv_construct_test_cx2.cpp ;
+
+run sv_hash_test.cpp : : : $(CPP11) <library>/boost/container_hash//boost_container_hash ;
+
+run sv_format_test.cpp
+  : : : $(pedantic-errors) ;
 
 run span_test.cpp ;
 run span_types_test.cpp ;
 run span_constructible_test.cpp ;
 run span_deduction_guide_test.cpp ;
+run span_constexpr_test.cpp ;
 run as_bytes_test.cpp ;
 run as_writable_bytes_test.cpp ;
 compile span_boost_begin_test.cpp ;
+compile span_nonmem_data_size_test.cpp ;
+run make_span_test.cpp ;
 
 run splitmix64_test.cpp
   : : : $(pedantic-errors) ;
@@ -351,5 +428,54 @@ run-fail verbose_terminate_handler_fail.cpp : : : <exception-handling>off : verb
 run-fail verbose_terminate_handler_fail.cpp : : : <rtti>off : verbose_terminate_handler_fail_nr ;
 run-fail verbose_terminate_handler_fail.cpp : : : <exception-handling>off <rtti>off : verbose_terminate_handler_fail_nxr ;
 
+run launder_test.cpp ;
+
+run alignof_test.cpp ;
+run max_align_test.cpp ;
+
+run memory_resource_test.cpp ;
+
+run data_test.cpp ;
+run size_test.cpp ;
+
+local with-serialization =
+    <library>/boost/serialization//boost_serialization/<warnings>off
+    $(warnings-as-errors-off)
+    <undefined-sanitizer>norecover:<link>static
+    $(CPP11)
+    # Serialization no longer builds under classic MinGW
+    # and <toolset>gcc,<target-os>windows,<address-model>32 fails for some reason
+    <toolset>gcc,<target-os>windows:<build>no
+;
+
+run serialization_nvp_test.cpp : : : $(with-serialization) <undefined-sanitizer>norecover:<build>no ;
+run serialization_split_free_test.cpp : : : $(with-serialization) ;
+run serialization_split_member_test.cpp : : : $(with-serialization) ;
+run serialization_construct_data_test.cpp : : : $(with-serialization) ;
+
+run identity_test.cpp ;
+run identity_rvalue_test.cpp ;
+
+run sp_thread_pause_test.cpp ;
+run sp_thread_yield_test.cpp ;
+run sp_thread_sleep_test.cpp ;
+run yield_prim_windows_h_test.cpp ;
+run yield_prim_pthread_cancel_test.cpp : ;
+
+run pointer_in_range_test.cpp ;
+compile pointer_in_range_constexpr_test.cpp ;
+
+run minstd_rand_test.cpp
+  : : : $(pedantic-errors) ;
+
 use-project /boost/core/swap : ./swap ;
 build-project ./swap ;
+
+compile static_assert_test.cpp ;
+compile static_assert_test2.cpp ;
+compile static_assert_test3.cpp ;
+
+compile-fail static_assert_fail.cpp ;
+compile-fail static_assert_fail2.cpp ;
+compile-fail static_assert_fail3.cpp ;
+compile-fail static_assert_fail4.cpp ;

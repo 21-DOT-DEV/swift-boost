@@ -14,22 +14,13 @@ target_include_directories(boost_lexical_cast INTERFACE include)
 
 target_link_libraries(boost_lexical_cast
   INTERFACE
-    Boost::array
-    Boost::assert
     Boost::config
     Boost::container
     Boost::core
-    Boost::integer
-    Boost::numeric_conversion
-    Boost::range
-    Boost::static_assert
     Boost::throw_exception
-    Boost::type_traits
 )
 
-if(BUILD_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
-
+if(BUILD_TESTING)
   add_subdirectory(test)
-
 endif()
 

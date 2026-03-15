@@ -219,6 +219,7 @@
 #  define BOOST_NO_CXX11_LOCAL_CLASS_TEMPLATE_PARAMETERS
 #  define BOOST_NO_CXX11_RAW_LITERALS
 #  define BOOST_NO_CXX11_UNICODE_LITERALS
+#  define BOOST_NO_CXX11_ALIGNOF
 #endif
 
 // C++0x features in 4.5.1 and later
@@ -317,6 +318,9 @@
 #endif
 #if !defined(__cpp_if_constexpr) || (__cpp_if_constexpr < 201606)
 #  define BOOST_NO_CXX17_IF_CONSTEXPR
+#endif
+#if (__GNUC__ < 7) || (__cplusplus < 201703L)
+#  define BOOST_NO_CXX17_AUTO_NONTYPE_TEMPLATE_PARAMS
 #endif
 
 #if __GNUC__ >= 7

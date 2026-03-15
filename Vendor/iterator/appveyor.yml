@@ -15,12 +15,6 @@ branches:
 
 environment:
   matrix:
-    - TOOLSET: msvc-9.0,msvc-10.0,msvc-11.0
-      ADDRMD: 32
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    - TOOLSET: msvc-12.0
-      ADDRMD: 32,64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     - TOOLSET: msvc-14.0
       CXXSTD: 14,latest
       ADDRMD: 32,64
@@ -38,29 +32,33 @@ environment:
       CXXSTD: 14,17,20,latest
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     - TOOLSET: clang-win
-      ADDRMD: 32,64
+      ADDRMD: 32
       CXXSTD: 14,17,latest
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      ENV_SCRIPT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars32.bat
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - TOOLSET: clang-win
+      ADDRMD: 64
+      CXXSTD: 14,17,latest
+      ENV_SCRIPT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     - TOOLSET: gcc
-      CXXSTD: 03,11,14,1z
+      CXXSTD: 11,14,1z
       ADDPATH: C:\cygwin\bin;
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     - TOOLSET: gcc
-      CXXSTD: 03,11,14,1z
+      CXXSTD: 11,14,1z
       ADDPATH: C:\cygwin64\bin;
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     - TOOLSET: gcc
-      CXXSTD: 03,11,14,1z
-      ADDPATH: C:\mingw\bin;
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    - TOOLSET: gcc
-      CXXSTD: 03,11,14,1z
+      CXXSTD: 11,14,1z
       ADDPATH: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     - TOOLSET: gcc
-      CXXSTD: 03,11,14,1z
+      CXXSTD: 11,14,1z
       ADDPATH: C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0\mingw64\bin;
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - TEST_CMAKE: 1
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
 install:
   - set GIT_FETCH_JOBS=8
@@ -84,6 +82,21 @@ build: off
 
 test_script:
   - PATH=%ADDPATH%%PATH%
+  - if not "%ENV_SCRIPT%" == "" call "%ENV_SCRIPT%"
   - if not "%CXXSTD%" == "" set CXXSTD=cxxstd=%CXXSTD%
   - if not "%ADDRMD%" == "" set ADDRMD=address-model=%ADDRMD%
   - b2 -j %NUMBER_OF_PROCESSORS% libs/iterator/test toolset=%TOOLSET% %CXXSTD% %ADDRMD%
+
+for:
+  - matrix:
+      only: [TEST_CMAKE: 1]
+    test_script:
+      - mkdir __build_static__
+      - cd __build_static__
+      - cmake ../libs/iterator/test/test_cmake
+      - cmake --build . --target boost_iterator_cmake_self_test -j %NUMBER_OF_PROCESSORS%
+      - cd ..
+      - mkdir __build_shared__
+      - cd __build_shared__
+      - cmake -DBUILD_SHARED_LIBS=On ../libs/iterator/test/test_cmake
+      - cmake --build . --target boost_iterator_cmake_self_test -j %NUMBER_OF_PROCESSORS%

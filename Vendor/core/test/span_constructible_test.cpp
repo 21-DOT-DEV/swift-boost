@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Glen Joseph Fernandes
+Copyright 2019-2023 Glen Joseph Fernandes
 (glenjofe@gmail.com)
 
 Distributed under the Boost Software License, Version 1.0.
@@ -17,6 +17,20 @@ struct range {
     }
 
     const T* data() const {
+        return 0;
+    }
+
+    std::size_t size() const {
+        return 0;
+    }
+};
+
+struct buffer {
+    void* data() {
+        return 0;
+    }
+
+    const void* data() const {
         return 0;
     }
 
@@ -138,6 +152,18 @@ void test_range()
         const range<int>&>));
     BOOST_TEST_TRAIT_FALSE((std::is_constructible<boost::span<base>,
         range<derived>&>));
+    BOOST_TEST_TRAIT_FALSE((std::is_constructible<boost::span<int>,
+        buffer>));
+    BOOST_TEST_TRAIT_FALSE((std::is_constructible<boost::span<int>,
+        const buffer&>));
+}
+
+void test_initializer_list()
+{
+    BOOST_TEST_TRAIT_TRUE((std::is_constructible<boost::span<const int>,
+        std::initializer_list<int> >));
+    BOOST_TEST_TRAIT_FALSE((std::is_constructible<boost::span<int>,
+        std::initializer_list<int> >));
 }
 
 void test_span()
@@ -187,6 +213,7 @@ int main()
     test_std_array();
     test_const_std_array();
     test_range();
+    test_initializer_list();
     test_span();
     test_copy();
     test_assign();

@@ -17,11 +17,12 @@ path-constant here : . ;
 
 doxygen autodoc
    :
-      [ glob ../../../boost/container/*.hpp ]
-      [ glob ../../../boost/container/pmr/*.hpp ]
+      [ glob ../include/boost/container/*.hpp ]
+      [ glob ../include/boost/container/pmr/*.hpp ]
    :
         <doxygen:param>EXTRACT_ALL=NO
         <doxygen:param>HIDE_UNDOC_MEMBERS=YES
+        <doxygen:param>HIDE_UNDOC_CLASSES=YES
         <doxygen:param>EXTRACT_PRIVATE=NO
         <doxygen:param>ENABLE_PREPROCESSING=YES
         <doxygen:param>EXPAND_ONLY_PREDEF=YES
