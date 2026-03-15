@@ -17,28 +17,26 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - toolset: gcc-7
-            cxxstd: "03,11,14,17"
-            os: ubuntu-18.04
+          - toolset: gcc-14  # Do not remove! It is the only toolset that tests CMake tests down below
+            cxxstd: "03,11,14,17,20"
+            os: ubuntu-24.04
+          - toolset: gcc-12
+            cxxstd: "03,11,14,17,2a"
+            os: ubuntu-22.04
+            cxxflags: "cxxflags=--coverage -fsanitize=address,leak,undefined -fno-sanitize-recover=undefined"
+            linkflags: "linkflags=--coverage -lasan -lubsan"
+            gcov_tool: "gcov-12"
+            launcher: "testing.launcher=LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.8"
           - toolset: gcc-9
             cxxstd: "03,11,14,17,2a"
-            os: ubuntu-18.04
-            cxxflags: "cxxflags=--coverage -fsanitize=address,leak"
-            linkflags: "linkflags=--coverage -lasan"
-            launcher: "testing.launcher=LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.5"
-            gcov_tool: "gcov-9"
-          - toolset: gcc-10
-            cxxstd: "03,11,14,17,2a"
-            os: ubuntu-18.04
-            cxxflags: "cxxflags=-fsanitize=address,leak,undefined -fno-sanitize-recover=undefined"
-            linkflags: "linkflags=-lasan -lubsan"
-            launcher: "testing.launcher=LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.6"
+            os: ubuntu-22.04
           - toolset: clang
-            compiler: clang++-10
+            compiler: clang++-14
             cxxstd: "03,11,14,17,2a"
-            os: ubuntu-20.04
-            cxxflags: "cxxflags=-fsanitize=address,undefined,integer -fno-sanitize-recover=undefined"
-            linkflags: "linkflags=-fsanitize=address,undefined,integer"
+            os: ubuntu-22.04
+          - toolset: clang
+            cxxstd: "11,14,17,20"
+            os: macos-13
 
     runs-on: ${{matrix.os}}
 
@@ -71,8 +69,19 @@ jobs:
           cp -r $GITHUB_WORKSPACE/* libs/$LIBRARY
           python tools/boostdep/depinst/depinst.py --include benchmark --include example --include examples --include tools --git_args "--depth 10 --jobs 3" $LIBRARY
           ./bootstrap.sh
-          ./b2 -d0 headers
-          ./b2 -j4 variant=debug tools/inspect/build
+          ./b2 -j4 variant=debug tools/inspect
+
+      - name: Run CMake tests
+        if: ${{matrix.toolset == 'gcc-14'}}
+        run: |
+          cd ../boost-root/
+          mkdir __build
+          cd __build
+          cmake -DBUILD_TESTING=1 -DBOOST_INCLUDE_LIBRARIES=lexical_cast -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 ..
+          cmake --build . --target tests
+          ctest --output-on-failure --no-tests=error
+          cd ..
+          rm -rf __build
 
       - name: Run tests
         run: |
@@ -87,9 +96,9 @@ jobs:
 
           echo -e "#!/bin/bash\nexec ${{matrix.gcov_tool}} \"\$@\"" > $GITHUB_WORKSPACE/coveralls/gcov_wrapper.sh
           chmod +x $GITHUB_WORKSPACE/coveralls/gcov_wrapper.sh
-          wget https://github.com/linux-test-project/lcov/archive/v1.15.zip
-          unzip v1.15.zip
-          LCOV="`pwd`/lcov-1.15/bin/lcov --gcov-tool $GITHUB_WORKSPACE/coveralls/gcov_wrapper.sh"
+          wget https://github.com/linux-test-project/lcov/archive/v1.16.zip
+          unzip v1.16.zip
+          LCOV="`pwd`/lcov-1.16/bin/lcov --gcov-tool $GITHUB_WORKSPACE/coveralls/gcov_wrapper.sh"
 
           echo "$LCOV --directory ../boost-root/bin.v2/libs/$LIBRARY/ --base-directory `pwd`/libs/$LIBRARY/test --capture --output-file $GITHUB_WORKSPACE/coveralls/coverage.info"
           $LCOV --directory ../boost-root/bin.v2/libs/$LIBRARY/ --base-directory ../boost-root/ --capture --output-file $GITHUB_WORKSPACE/coveralls/coverage.info
@@ -113,18 +122,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - toolset: msvc
-            cxxstd: "14,17,latest"
+          - toolset: msvc-14.3
+            cxxstd: "14,17,20,latest"
             addrmd: 32,64
             os: windows-2022
-          - toolset: msvc-14.2
+          - toolset: msvc
             cxxstd: "14,17,latest"
-            addrmd: 32,64
-            os: windows-2019
+            addrmd: 64
+            os: windows-2025
           - toolset: gcc
             cxxstd: "03,11,14,17,2a"
             addrmd: 64
-            os: windows-2019
+            os: windows-2022
 
     runs-on: ${{matrix.os}}
 
@@ -151,7 +160,21 @@ jobs:
           git submodule update --init tools/boostdep
           python tools/boostdep/depinst/depinst.py --include benchmark --include example --include examples --include tools --git_args "--jobs 3" %LIBRARY%
           cmd /c bootstrap
-          b2 -d0 headers
+
+      - name: Run CMake tests
+        if: ${{matrix.toolset == 'msvc-14.3'}}
+        shell: cmd
+        run: |
+          choco install --no-progress ninja
+          call "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvarsall.bat" x64
+          cd ../boost-root/
+          mkdir __build
+          cd __build
+          cmake -DBUILD_TESTING=1 -DBOOST_INCLUDE_LIBRARIES=lexical_cast ..
+          cmake --build . --target tests --config Debug
+          ctest --output-on-failure --no-tests=error -C Debug
+          cd ..
+          rm -rf __build
 
       - name: Run tests
         shell: cmd

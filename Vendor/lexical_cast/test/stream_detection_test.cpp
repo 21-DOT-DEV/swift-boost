@@ -2,19 +2,18 @@
 //
 //  See http://www.boost.org for most recent version, including documentation.
 //
-//  Copyright Antony Polukhin, 2011-2022.
+//  Copyright Antony Polukhin, 2011-2025.
 //
 //  Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt).
 
-
-#include <boost/config.hpp>
-#include <boost/test/unit_test.hpp>
-
 #include <boost/lexical_cast.hpp>
 
+#include <boost/core/lightweight_test.hpp>
+
 #include <iostream>
+#include <type_traits>
 
 
 ///////////////////////// char streamable classes ///////////////////////////////////////////
@@ -24,33 +23,33 @@ std::ostream& operator << (std::ostream& ostr, const streamable_easy&) {
     return ostr << streamable_easy::value;
 }
 std::istream& operator >> (std::istream& istr, const streamable_easy&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, streamable_easy::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, streamable_easy::value);
     return istr;
 }
 
 struct streamable_medium { enum ENU {value = 1}; };
 template <class CharT>
-typename boost::enable_if<boost::is_same<CharT, char>, std::basic_ostream<CharT>&>::type
+typename std::enable_if<std::is_same<CharT, char>::value, std::basic_ostream<CharT>&>::type
 operator << (std::basic_ostream<CharT>& ostr, const streamable_medium&) {
     return ostr << streamable_medium::value;
 }
 template <class CharT>
-typename boost::enable_if<boost::is_same<CharT, char>, std::basic_istream<CharT>&>::type
+typename std::enable_if<std::is_same<CharT, char>::value, std::basic_istream<CharT>&>::type
 operator >> (std::basic_istream<CharT>& istr, const streamable_medium&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, streamable_medium::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, streamable_medium::value);
     return istr;
 }
 
 struct streamable_hard { enum ENU {value = 2}; };
 template <class CharT, class TraitsT>
-typename boost::enable_if<boost::is_same<CharT, char>, std::basic_ostream<CharT, TraitsT>&>::type
+typename std::enable_if<std::is_same<CharT, char>::value, std::basic_ostream<CharT, TraitsT>&>::type
 operator << (std::basic_ostream<CharT, TraitsT>& ostr, const streamable_hard&) {
     return ostr << streamable_hard::value;
 }
 template <class CharT, class TraitsT>
-typename boost::enable_if<boost::is_same<CharT, char>, std::basic_istream<CharT, TraitsT>&>::type
+typename std::enable_if<std::is_same<CharT, char>::value, std::basic_istream<CharT, TraitsT>&>::type
 operator >> (std::basic_istream<CharT, TraitsT>& istr, const streamable_hard&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, streamable_hard::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, streamable_hard::value);
     return istr;
 }
 
@@ -61,7 +60,7 @@ std::basic_ostream<char, TraitsT>& operator << (std::basic_ostream<char, TraitsT
 }
 template <class TraitsT>
 std::basic_istream<char, TraitsT>& operator >> (std::basic_istream<char, TraitsT>& istr, const streamable_hard2&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, streamable_hard2::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, streamable_hard2::value);
     return istr;
 }
 
@@ -73,33 +72,33 @@ std::wostream& operator << (std::wostream& ostr, const wstreamable_easy&) {
     return ostr << wstreamable_easy::value;
 }
 std::wistream& operator >> (std::wistream& istr, const wstreamable_easy&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, wstreamable_easy::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, wstreamable_easy::value);
     return istr;
 }
 
 struct wstreamable_medium { enum ENU {value = 5}; };
 template <class CharT>
-typename boost::enable_if<boost::is_same<CharT, wchar_t>, std::basic_ostream<CharT>& >::type
+typename std::enable_if<std::is_same<CharT, wchar_t>::value, std::basic_ostream<CharT>& >::type
 operator << (std::basic_ostream<CharT>& ostr, const wstreamable_medium&) {
     return ostr << wstreamable_medium::value;
 }
 template <class CharT>
-typename boost::enable_if<boost::is_same<CharT, wchar_t>, std::basic_istream<CharT>& >::type
+typename std::enable_if<std::is_same<CharT, wchar_t>::value, std::basic_istream<CharT>& >::type
 operator >> (std::basic_istream<CharT>& istr, const wstreamable_medium&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, wstreamable_medium::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, wstreamable_medium::value);
     return istr;
 }
 
 struct wstreamable_hard { enum ENU {value = 6}; };
 template <class CharT, class TraitsT>
-typename boost::enable_if<boost::is_same<CharT, wchar_t>, std::basic_ostream<CharT, TraitsT>&>::type
+typename std::enable_if<std::is_same<CharT, wchar_t>::value, std::basic_ostream<CharT, TraitsT>&>::type
 operator << (std::basic_ostream<CharT, TraitsT>& ostr, const wstreamable_hard&) {
     return ostr << wstreamable_hard::value;
 }
 template <class CharT, class TraitsT>
-typename boost::enable_if<boost::is_same<CharT, wchar_t>, std::basic_istream<CharT, TraitsT>&>::type
+typename std::enable_if<std::is_same<CharT, wchar_t>::value, std::basic_istream<CharT, TraitsT>&>::type
 operator >> (std::basic_istream<CharT, TraitsT>& istr, const wstreamable_hard&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, wstreamable_hard::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, wstreamable_hard::value);
     return istr;
 }
 
@@ -110,7 +109,7 @@ std::basic_ostream<wchar_t, TraitsT>& operator << (std::basic_ostream<wchar_t, T
 }
 template <class TraitsT>
 std::basic_istream<wchar_t, TraitsT>& operator >> (std::basic_istream<wchar_t, TraitsT>& istr, const wstreamable_hard2&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, wstreamable_hard2::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, wstreamable_hard2::value);
     return istr;
 }
 
@@ -122,7 +121,7 @@ std::ostream& operator << (std::ostream& ostr, const bistreamable_easy&) {
     return ostr << bistreamable_easy::value;
 }
 std::istream& operator >> (std::istream& istr, const bistreamable_easy&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_easy::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_easy::value);
     return istr;
 }
 
@@ -130,7 +129,7 @@ std::wostream& operator << (std::wostream& ostr, const bistreamable_easy&) {
     return ostr << bistreamable_easy::value + 100;
 }
 std::wistream& operator >> (std::wistream& istr, const bistreamable_easy&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_easy::value + 100);
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_easy::value + 100);
     return istr;
 }
 
@@ -141,7 +140,7 @@ std::basic_ostream<CharT>& operator << (std::basic_ostream<CharT>& ostr, const b
 }
 template <class CharT>
 std::basic_istream<CharT>& operator >> (std::basic_istream<CharT>& istr, const bistreamable_medium&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_medium::value + (sizeof(CharT) == 1 ? 0 : 100));
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_medium::value + (sizeof(CharT) == 1 ? 0 : 100));
     return istr;
 }
 
@@ -152,7 +151,7 @@ std::basic_ostream<CharT, TraitsT>& operator << (std::basic_ostream<CharT, Trait
 }
 template <class CharT, class TraitsT>
 std::basic_istream<CharT, TraitsT>& operator >> (std::basic_istream<CharT, TraitsT>& istr, const bistreamable_hard&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_hard::value + (sizeof(CharT) == 1 ? 0 : 100));
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_hard::value + (sizeof(CharT) == 1 ? 0 : 100));
     return istr;
 }
 
@@ -163,7 +162,7 @@ std::basic_ostream<char, TraitsT>& operator << (std::basic_ostream<char, TraitsT
 }
 template <class TraitsT>
 std::basic_istream<char, TraitsT>& operator >> (std::basic_istream<char, TraitsT>& istr, const bistreamable_hard2&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_hard2::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_hard2::value);
     return istr;
 }
 
@@ -173,49 +172,33 @@ std::basic_ostream<wchar_t, TraitsT>& operator << (std::basic_ostream<wchar_t, T
 }
 template <class TraitsT>
 std::basic_istream<wchar_t, TraitsT>& operator >> (std::basic_istream<wchar_t, TraitsT>& istr, const bistreamable_hard2&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, bistreamable_hard2::value + 100);
+    int i; istr >> i; BOOST_TEST_EQ(i, bistreamable_hard2::value + 100);
     return istr;
-}
-
-
-void test_ostream_character_detection();
-void test_istream_character_detection();
-void test_mixed_stream_character_detection();
-
-boost::unit_test::test_suite *init_unit_test_suite(int, char *[])
-{
-    boost::unit_test::test_suite *suite =
-        BOOST_TEST_SUITE("lexical_cast stream character detection");
-    suite->add(BOOST_TEST_CASE(&test_ostream_character_detection));
-    suite->add(BOOST_TEST_CASE(&test_istream_character_detection));
-    suite->add(BOOST_TEST_CASE(&test_mixed_stream_character_detection));
-
-    return suite;
 }
 
 template <class T>
 static void test_ostr_impl() {
     T streamable;
-    BOOST_CHECK_EQUAL(T::value,  boost::lexical_cast<int>(streamable));
-    BOOST_CHECK_EQUAL(boost::lexical_cast<std::string>(T::value),  boost::lexical_cast<std::string>(streamable));
+    BOOST_TEST_EQ(T::value,  boost::lexical_cast<int>(streamable));
+    BOOST_TEST_EQ(boost::lexical_cast<std::string>(T::value),  boost::lexical_cast<std::string>(streamable));
 }
 
 template <class T>
 static void test_wostr_impl() {
     T streamable;
-    BOOST_CHECK_EQUAL(T::value,  boost::lexical_cast<int>(streamable));
-    // BOOST_CHECK_EQUAL(boost::lexical_cast<std::string>(T::value), boost::lexical_cast<std::string>(streamable)); // Shall not compile???
-    BOOST_CHECK(boost::lexical_cast<std::wstring>(T::value) == boost::lexical_cast<std::wstring>(streamable));
+    BOOST_TEST_EQ(T::value,  boost::lexical_cast<int>(streamable));
+    // BOOST_TEST_EQ(boost::lexical_cast<std::string>(T::value), boost::lexical_cast<std::string>(streamable)); // Shall not compile???
+    BOOST_TEST(boost::lexical_cast<std::wstring>(T::value) == boost::lexical_cast<std::wstring>(streamable));
 }
 
 template <class T>
 static void test_bistr_impl() {
     T streamable;
 
-    BOOST_CHECK_EQUAL(T::value,  boost::lexical_cast<int>(streamable));
-    BOOST_CHECK_EQUAL(boost::lexical_cast<std::string>(T::value),  boost::lexical_cast<std::string>(streamable));
+    BOOST_TEST_EQ(T::value,  boost::lexical_cast<int>(streamable));
+    BOOST_TEST_EQ(boost::lexical_cast<std::string>(T::value),  boost::lexical_cast<std::string>(streamable));
 
-    BOOST_CHECK(boost::lexical_cast<std::wstring>(T::value + 100) == boost::lexical_cast<std::wstring>(streamable));
+    BOOST_TEST(boost::lexical_cast<std::wstring>(T::value + 100) == boost::lexical_cast<std::wstring>(streamable));
 }
 
 void test_ostream_character_detection() {
@@ -273,17 +256,14 @@ void test_istream_character_detection() {
     test_bistr_instr_impl<bistreamable_hard2>();
 }
 
-
-
-
-
-
 struct wistreamble_ostreamable { enum ENU {value = 200}; };
 std::ostream& operator << (std::ostream& ostr, const wistreamble_ostreamable&) {
     return ostr << wistreamble_ostreamable::value;
 }
 std::wistream& operator >> (std::wistream& istr, const wistreamble_ostreamable&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, wistreamble_ostreamable::value);
+    int i = 100;
+    istr >> i;
+    BOOST_TEST_EQ(i, wistreamble_ostreamable::value);
     return istr;
 }
 
@@ -292,16 +272,27 @@ std::wostream& operator << (std::wostream& ostr, const istreamble_wostreamable&)
     return ostr << istreamble_wostreamable::value;
 }
 std::istream& operator >> (std::istream& istr, const istreamble_wostreamable&) {
-    int i; istr >> i; BOOST_CHECK_EQUAL(i, istreamble_wostreamable::value);
+    int i; istr >> i; BOOST_TEST_EQ(i, istreamble_wostreamable::value);
     return istr;
 }
 
 void test_mixed_stream_character_detection() {
     //boost::lexical_cast<std::wstring>(std::string("qwe")); // TODO: ALLOW IT AS EXTENSION!
 
+    BOOST_TEST_EQ(boost::lexical_cast<int>(wistreamble_ostreamable::value), wistreamble_ostreamable::value);
     boost::lexical_cast<wistreamble_ostreamable>(wistreamble_ostreamable::value);
-    BOOST_CHECK_EQUAL(boost::lexical_cast<int>(wistreamble_ostreamable()), wistreamble_ostreamable::value);
+    BOOST_TEST_EQ(boost::lexical_cast<int>(wistreamble_ostreamable()), wistreamble_ostreamable::value);
 
     boost::lexical_cast<istreamble_wostreamable>(istreamble_wostreamable::value);
-    BOOST_CHECK_EQUAL(boost::lexical_cast<int>(istreamble_wostreamable()), istreamble_wostreamable::value);
+    BOOST_TEST_EQ(boost::lexical_cast<int>(istreamble_wostreamable()), istreamble_wostreamable::value);
+}
+
+
+int main()
+{
+    test_ostream_character_detection();
+    test_istream_character_detection();
+    test_mixed_stream_character_detection();
+
+    return boost::report_errors();
 }

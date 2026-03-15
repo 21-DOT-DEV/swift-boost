@@ -1,6 +1,6 @@
 // Copyright Kevlin Henney, 2000-2005.
 // Copyright Alexander Nasonov, 2006-2010.
-// Copyright Antony Polukhin, 2011-2022.
+// Copyright Antony Polukhin, 2011-2025.
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
@@ -32,11 +32,10 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
+#include <type_traits>
 #include <boost/limits.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/detail/lcast_precision.hpp>
-#include <boost/detail/workaround.hpp>
+#include <boost/config/workaround.hpp>
 
 #ifdef BOOST_NO_STRINGSTREAM
 #include <strstream>
@@ -116,7 +115,7 @@ namespace boost {
             template<typename InputStreamable>
             bool operator>>(InputStreamable &output)
             {
-                return !is_pointer<InputStreamable>::value &&
+                return !std::is_pointer<InputStreamable>::value &&
                        stream >> output &&
                        stream.get() == traits_type::eof();
             }
@@ -154,13 +153,13 @@ namespace boost {
     Target lexical_cast(Source arg)
     {
         typedef typename detail::widest_char<
-            BOOST_DEDUCED_TYPENAME detail::stream_char<Target>::type
-          , BOOST_DEDUCED_TYPENAME detail::stream_char<Source>::type
+            typename detail::stream_char<Target>::type
+          , typename detail::stream_char<Source>::type
         >::type char_type;
 
         typedef std::char_traits<char_type> traits;
         detail::lexical_stream<Target, Source, traits> interpreter;
-        Target result;
+        Target result{};
 
         if(!(interpreter << arg && interpreter >> result))
             boost::conversion::detail::throw_bad_cast<Source, Target>();

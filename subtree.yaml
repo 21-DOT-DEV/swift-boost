@@ -158,8 +158,8 @@ subtrees:
 - name: lexical_cast
   remote: https://github.com/boostorg/lexical_cast
   prefix: Vendor/lexical_cast
-  commit: 81148c50f719f94e150b6b261db2573b3e1b1d54
-  branch: boost-1.81.0
+  commit: 275844e651f5c70a20226d3d1630ba4eff205f8d
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}

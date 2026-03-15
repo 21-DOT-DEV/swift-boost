@@ -1,7 +1,3 @@
-//  //  Unit test for boost::lexical_cast.
-//
-//  See http://www.boost.org for most recent version, including documentation.
-//
 //  Copyright Antony Polukhin, 2013-2025.
 //
 //  Distributed under the Boost
@@ -9,10 +5,12 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt).
 
 #include <boost/lexical_cast.hpp>
+#include <string>
 
 int main()
 {
-    boost::lexical_cast<char*>("Hello");
+    volatile int i = 42;
+    boost::lexical_cast<std::string>(i);
     return 1;
 }
 
