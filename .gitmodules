@@ -10,9 +10,6 @@
 [submodule "Submodules/tuple"]
 	path = Submodules/tuple
 	url = https://github.com/boostorg/tuple
-[submodule "Submodules/throw_exception"]
-	path = Submodules/throw_exception
-	url = https://github.com/boostorg/throw_exception
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility

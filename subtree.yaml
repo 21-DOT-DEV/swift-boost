@@ -284,3 +284,6 @@ subtrees:
   commit: d307a2d4a75efb0999f97f559f2df83cb9841b8d
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/throw_exception/
