@@ -221,8 +221,8 @@ subtrees:
 - name: preprocessor
   remote: https://github.com/boostorg/preprocessor
   prefix: Vendor/preprocessor
-  commit: 667e87b3392db338a919cbe0213979713aca52e3
-  branch: boost-1.81.0
+  commit: cd1b1bd03900b68505822cfa25cb16851bd6caf1
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
