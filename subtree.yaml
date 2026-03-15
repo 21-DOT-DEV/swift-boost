@@ -161,3 +161,6 @@ subtrees:
   commit: 81148c50f719f94e150b6b261db2573b3e1b1d54
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/lexical_cast/
