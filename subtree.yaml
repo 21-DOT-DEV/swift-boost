@@ -248,8 +248,8 @@ subtrees:
 - name: smart_ptr
   remote: https://github.com/boostorg/smart_ptr
   prefix: Vendor/smart_ptr
-  commit: 331c50132ba92f0b05b1672cced9dbaee6614c32
-  branch: boost-1.81.0
+  commit: 2fcaa8818bf87c3c1c11fb86cb836cff1b127dd4
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
