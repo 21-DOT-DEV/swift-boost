@@ -167,8 +167,8 @@ subtrees:
 - name: move
   remote: https://github.com/boostorg/move
   prefix: Vendor/move
-  commit: 0a1cb78c95c5d06bc45e3bc2ed91876467b9ccae
-  branch: boost-1.81.0
+  commit: 754ef1f5ba347603cd2edd2d4659bc7bf978ff31
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
