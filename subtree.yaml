@@ -269,3 +269,9 @@ subtrees:
   commit: 5d6fefdd2acd70c34d8ba4590ab888d8481532af
   branch: boost-1.81.0
   squash: true
+- name: signals2
+  remote: https://github.com/boostorg/signals2
+  prefix: Vendor/signals2
+  commit: ed50b7720e91215975dd74bca2bf9741f9a56798
+  branch: boost-1.81.0
+  squash: true
