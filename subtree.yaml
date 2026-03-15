@@ -152,3 +152,6 @@ subtrees:
   commit: 7c9b4296a189f71b28de3aad025b08da1f4ca84b
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/iterator/

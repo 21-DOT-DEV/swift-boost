@@ -37,9 +37,6 @@
 [submodule "Submodules/move"]
 	path = Submodules/move
 	url = https://github.com/boostorg/move
-[submodule "Submodules/iterator"]
-	path = Submodules/iterator
-	url = https://github.com/boostorg/iterator
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
