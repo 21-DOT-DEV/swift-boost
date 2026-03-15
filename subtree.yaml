@@ -75,8 +75,8 @@ subtrees:
 - name: core
   remote: https://github.com/boostorg/core
   prefix: Vendor/core
-  commit: ad20fadde7daead18e882722e095e4137b4f417d
-  branch: boost-1.81.0
+  commit: 239953da9f0f11883f96548032b13ff0fd6453bb
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}

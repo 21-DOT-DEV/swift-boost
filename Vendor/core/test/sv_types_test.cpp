@@ -5,12 +5,20 @@
 #include <boost/core/detail/string_view.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/core/lightweight_test_trait.hpp>
-#include <boost/core/is_same.hpp>
 #include <iterator>
+
+#if defined(_LIBCPP_VERSION) && _LIBCPP_VERSION >= 160000
+
+// std::char_traits<Ch> is deprecated for non-char types
+typedef wchar_t Ch;
+
+#else
 
 struct Ch
 {
 };
+
+#endif
 
 int main()
 {

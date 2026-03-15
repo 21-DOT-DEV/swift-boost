@@ -4,10 +4,10 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-// Tests swapping std::vector objects by means of boost::swap,
-// having boost::swap_test_class as vector element type. 
+// Tests swapping std::vector objects by means of boost::core::invoke_swap,
+// having boost::swap_test_class as vector element type.
 
-#include <boost/utility/swap.hpp>
+#include <boost/core/invoke_swap.hpp>
 #include <boost/core/lightweight_test.hpp>
 #define BOOST_CHECK BOOST_TEST
 #define BOOST_CHECK_EQUAL BOOST_TEST_EQ
@@ -39,20 +39,20 @@ int main()
 
   const vector_type initial_value1(initial_size1, swap_test_class_type(1));
   const vector_type initial_value2(initial_size2, swap_test_class_type(2));
-  
+
   vector_type object1 = initial_value1;
   vector_type object2 = initial_value2;
 
   swap_test_class_type::reset();
-  
-  boost::swap(object1,object2);
+
+  boost::core::invoke_swap(object1,object2);
 
   BOOST_CHECK_EQUAL(object1.size(),initial_size2);
   BOOST_CHECK_EQUAL(object2.size(),initial_size1);
 
   BOOST_CHECK(object1 == initial_value2);
   BOOST_CHECK(object2 == initial_value1);
-  
+
   BOOST_CHECK_EQUAL(swap_test_class_type::swap_count(),0);
   BOOST_CHECK_EQUAL(swap_test_class_type::copy_count(),0);
 
