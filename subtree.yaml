@@ -260,3 +260,6 @@ subtrees:
   commit: ba72d3340f3dc6e773868107f35902292f84b07e
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/static_assert/
