@@ -275,3 +275,6 @@ subtrees:
   commit: ed50b7720e91215975dd74bca2bf9741f9a56798
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/signals2/

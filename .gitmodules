@@ -13,9 +13,6 @@
 [submodule "Submodules/throw_exception"]
 	path = Submodules/throw_exception
 	url = https://github.com/boostorg/throw_exception
-[submodule "Submodules/signals2"]
-	path = Submodules/signals2
-	url = https://github.com/boostorg/signals2
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
