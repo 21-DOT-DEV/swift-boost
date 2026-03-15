@@ -32,7 +32,8 @@ local linux_pipeline(name, image, environment, packages = "", sources = [], arch
             commands:
             [
                 'set -e',
-                'wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -',
+                'uname -a',
+                'echo $DRONE_STAGE_MACHINE',
             ] +
             (if sources != [] then [ ('apt-add-repository "' + source + '"') for source in sources ] else []) +
             (if packages != "" then [ 'apt-get update', 'apt-get -y install ' + packages ] else []) +
@@ -187,6 +188,34 @@ local windows_pipeline(name, image, environment, arch = "amd64") =
     ),
 
     linux_pipeline(
+        "Linux 24.04 GCC 13",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-13', CXXSTD: '03,11,14,17,20,2b' },
+        "g++-13",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 GCC 14 UBSAN",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-14', CXXSTD: '03,11,14,17,20,2b' } + ubsan,
+        "g++-14",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 GCC 14 ASAN",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-14', CXXSTD: '03,11,14,17,20,2b' } + asan,
+        "g++-14",
+    ),
+
+    linux_pipeline(
+        "Linux 25.04 GCC 15",
+        "cppalliance/droneubuntu2504:1",
+        { TOOLSET: 'gcc', COMPILER: 'g++-15', CXXSTD: '03,11,14,17,20,23,2c' },
+        "g++-15",
+    ),
+
+    linux_pipeline(
         "Linux 16.04 Clang 3.5",
         "cppalliance/droneubuntu1604:1",
         { TOOLSET: 'clang', COMPILER: 'clang++-3.5', CXXSTD: '03,11' },
@@ -231,7 +260,7 @@ local windows_pipeline(name, image, environment, arch = "amd64") =
     linux_pipeline(
         "Linux 18.04 Clang 5.0",
         "cppalliance/droneubuntu1804:1",
-        { TOOLSET: 'clang', COMPILER: 'clang++-5.0', CXXSTD: '03,11,14,1z' },
+        { TOOLSET: 'clang', COMPILER: 'clang++-5.0', CXXSTD: '03,11,14' },
         "clang-5.0",
     ),
 
@@ -303,18 +332,76 @@ local windows_pipeline(name, image, environment, arch = "amd64") =
         "cppalliance/droneubuntu2204:1",
         { TOOLSET: 'clang', COMPILER: 'clang++-15', CXXSTD: '03,11,14,17,20,2b' },
         "clang-15",
-        ["deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main"],
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 Clang 16",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-16', CXXSTD: '03,11,14,17,20,2b' },
+        "clang-16",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 Clang 17",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-17', CXXSTD: '03,11,14,17,20,2b' },
+        "clang-17",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 Clang 18 UBSAN",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-18', CXXSTD: '03,11,14,17,20,2b' } + ubsan,
+        "clang-18",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 Clang 18 ASAN",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-18', CXXSTD: '03,11,14,17,20,2b' } + asan,
+        "clang-18",
+    ),
+
+    linux_pipeline(
+        "Linux 24.04 Clang 19",
+        "cppalliance/droneubuntu2404:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-19', CXXSTD: '03,11,14,17,20,2b' },
+        "clang-19",
+    ),
+
+    linux_pipeline(
+        "Linux 25.04 Clang 20",
+        "cppalliance/droneubuntu2504:1",
+        { TOOLSET: 'clang', COMPILER: 'clang++-20', CXXSTD: '03,11,14,17,20,23,2c' },
+        "clang-20",
     ),
 
     macos_pipeline(
-        "MacOS 10.15 Xcode 12.2",
-        { TOOLSET: 'clang', COMPILER: 'clang++', CXXSTD: '03,11,14,1z' },
+        "MacOS 10.15 Xcode 12.2 UBSAN",
+        { TOOLSET: 'clang', COMPILER: 'clang++', CXXSTD: '03,11,14,1z' } + ubsan,
+    ),
+
+    macos_pipeline(
+        "MacOS 10.15 Xcode 12.2 ASAN",
+        { TOOLSET: 'clang', COMPILER: 'clang++', CXXSTD: '03,11,14,1z' } + asan,
+    ),
+
+    macos_pipeline(
+        "MacOS 12.4 Xcode 13.4.1 UBSAN",
+        { TOOLSET: 'clang', COMPILER: 'clang++', CXXSTD: '03,11,14,17,20,2b' } + ubsan,
+        xcode_version = "13.4.1", osx_version = "monterey", arch = "arm64",
+    ),
+
+    macos_pipeline(
+        "MacOS 12.4 Xcode 13.4.1 ASAN",
+        { TOOLSET: 'clang', COMPILER: 'clang++', CXXSTD: '03,11,14,17,20,2b' } + asan,
+        xcode_version = "13.4.1", osx_version = "monterey", arch = "arm64",
     ),
 
     windows_pipeline(
         "Windows VS2015 msvc-14.0",
         "cppalliance/dronevs2015",
-        { TOOLSET: 'msvc-14.0', CXXSTD: '14,latest' },
+        { TOOLSET: 'msvc-14.0', CXXSTD: '14,latest', B2_DONT_EMBED_MANIFEST: '1' },
     ),
 
     windows_pipeline(

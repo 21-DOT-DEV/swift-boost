@@ -93,8 +93,8 @@ subtrees:
 - name: describe
   remote: https://github.com/boostorg/describe
   prefix: Vendor/describe
-  commit: 311cab7565398f106f783f904f7bda036493cce4
-  branch: boost-1.81.0
+  commit: ee215421cb33a915620855cd892377e6d16c0fad
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
