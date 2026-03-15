@@ -198,5 +198,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/multi_index/
+- name: numeric_conversion
+  remote: https://github.com/boostorg/numeric_conversion
+  prefix: Vendor/numeric_conversion
+  commit: 50a1eae942effb0a9b90724323ef8f2a67e7984a
+  branch: boost-1.81.0
+  squash: true
