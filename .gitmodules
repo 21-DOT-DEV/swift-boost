@@ -55,9 +55,6 @@
 [submodule "Submodules/lexical_cast"]
 	path = Submodules/lexical_cast
 	url = https://github.com/boostorg/lexical_cast
-[submodule "Submodules/io"]
-	path = Submodules/io
-	url = https://github.com/boostorg/io
 [submodule "Submodules/mpl"]
 	path = Submodules/mpl
 	url = https://github.com/21-DOT-DEV/mpl
