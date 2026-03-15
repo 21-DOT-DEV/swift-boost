@@ -114,3 +114,6 @@ subtrees:
   commit: cc2f75ae30492b9de69b3b692f5c59afcb7dea5e
   branch: boost-1.77.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/foreach/
