@@ -52,9 +52,6 @@
 [submodule "Submodules/detail"]
 	path = Submodules/detail
 	url = https://github.com/boostorg/detail
-[submodule "Submodules/core"]
-	path = Submodules/core
-	url = https://github.com/boostorg/core
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility
