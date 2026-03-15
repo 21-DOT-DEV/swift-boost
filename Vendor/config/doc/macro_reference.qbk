@@ -630,22 +630,6 @@ standard).
 
 [endsect]
 
-[section Macros that describe possible C++ future features]
-
-The following macros describe features that may be included in some future
-ISO C++ standard, but have not yet been approved for inclusion in the language.
-
-
-[table
-[[Macro     ][Description     ]]
-
-[[`BOOST_HAS_CONCEPTS`][
-The compiler supports  concepts.
-]]
-]
-
-[endsect]
-
 [section Macros that describe C++11 features not supported]
 
 The following macros describe features in the 2011 ISO C++ standard, formerly known as C++0x,
@@ -656,6 +640,7 @@ that are not yet supported by a particular compiler or library.
 
 [[`BOOST_NO_CXX11_ADDRESSOF`][The standard library header <memory> has no working std::addressof.]]
 [[`BOOST_NO_CXX11_ALIGNAS`][The compiler does not support the `alignas` keyword.]]
+[[`BOOST_NO_CXX11_ALIGNOF`][The compiler does not support the `alignof` keyword.]]
 [[`BOOST_NO_CXX11_ALLOCATOR`][The standard library does not provide a C++11 version of `std::allocator` in <memory>.]]
 [[`BOOST_NO_CXX11_ATOMIC_SMART_PTR`][The standard library <memory> does not support atomic smart pointer operations.]]
 [[`BOOST_NO_CXX11_AUTO_DECLARATIONS`][The compiler does not support
@@ -1042,6 +1027,7 @@ that are not yet supported by a particular compiler or library.
 [[`BOOST_NO_CXX17_IF_CONSTEXPR`][The compiler does not support `if constexpr`.]]
 [[`BOOST_NO_CXX17_INLINE_VARIABLES`][The compiler does not support `inline` variables.]]
 [[`BOOST_NO_CXX17_DEDUCTION_GUIDES`][The compiler does not support class template argument deduction (CTAD) guides.]]
+[[`BOOST_NO_CXX17_AUTO_NONTYPE_TEMPLATE_PARAMS`][The compiler does not support `auto` non-type template parameters.]]
 ]
 
 [endsect]
@@ -1084,6 +1070,26 @@ that are not yet supported by a particular compiler or library.
 [[`BOOST_NO_CXX20_HDR_COROUTINE`][The compiler does not support the header `<coroutine>`.]]
 [[`BOOST_NO_CXX20_HDR_SEMAPHORE`][The compiler does not support the header `<semaphore>`.]]
 [[`BOOST_NO_CXX20_HDR_VERSION`][The compiler does not support the header `<version>`.]]
+]
+
+[endsect]
+
+[section Macros that describe C++23 features not supported]
+
+The following macros describe features in the 2023 ISO C++ standard, formerly known as C++2b,
+that are not yet supported by a particular compiler or library.
+
+[table
+[[Macro ][Description ]]
+[[`BOOST_NO_CXX23_HDR_EXPECTED`][The compiler does not support the header `<expected>`.]]
+[[`BOOST_NO_CXX23_HDR_FLAT_MAP`][The compiler does not support the header `<flat_map>`.]]
+[[`BOOST_NO_CXX23_HDR_FLAT_SET`][The compiler does not support the header `<flat_set>`.]]
+[[`BOOST_NO_CXX23_HDR_GENERATOR`][The compiler does not support the header `<generator>`.]]
+[[`BOOST_NO_CXX23_HDR_MDSPAN`][The compiler does not support the header `<mdspan>`.]]
+[[`BOOST_NO_CXX23_HDR_PRINT`][The compiler does not support the header `<print>`.]]
+[[`BOOST_NO_CXX23_HDR_SPANSTREAM`][The compiler does not support the header `<spanstream>`.]]
+[[`BOOST_NO_CXX23_HDR_STACKTRACE`][The compiler does not support the header `<stacktrace>`.]]
+[[`BOOST_NO_CXX23_HDR_STDFLOAT`][The compiler does not support the header `<stdfloat>`.]]
 ]
 
 [endsect]
@@ -1322,11 +1328,11 @@ used to create a mangled name in combination with a predefined macro such a
 \_\_LINE__.
 ]]
 [[`BOOST_RESTRICT`][
-This macro can be used in place of the compiler specific variant of the C99 `restrict` keyword to
+This macro can be used in place of the compiler-specific variant of the C99 `restrict` keyword to
 notify the compiler that, for the lifetime of the qualified pointer variable, only it and its
-derivative value will be used to gain access to the object it references. This limits the effect of
-pointer aliasing and helps the optimizers in generating better code. However, i this condition is
-violated, undefined behavior may occurs.
+derivative values will be used to access the object it references. This limits the effect of
+pointer aliasing and helps optimizers in generating better code. However, if this condition is
+violated, undefined behavior may occur.
 
 Usage example:
 ``
@@ -1535,9 +1541,12 @@ Defined if the Windows platform API is available.
 Defined if the dinkumware standard library is in use, takes the same value
 as the Dinkumware library version macro `_CPPLIB_VER` if defined, otherwise 1.
 ]]
-[[`BOOST_NO_WREGEX`][`<boost/regex.hpp>`][
-Defined if the regex library does not support wide character regular
-expressions.
+[[`BOOST_MSSTL_VERSION`][`<boost/config.hpp>`][
+Defined if the Microsoft Visual C++ standard library is in use.
+Has the value of `_MSVC_STL_VERSION` when that is defined, and a synthesized
+value of the same format otherwise. Example values are 143 for
+VS2022/msvc-14.3, 142 for VS2019/msvc-14.2, 141 for VS2017/msvc-14.1,
+140 for VS2015/msvc-14.0, 120 for VS2013/msvc-12.0, and so on.
 ]]
 [[`BOOST_COMPILER`][`<boost/config.hpp>`][
 Defined as a string describing the name and version number of the compiler

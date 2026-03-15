@@ -48,8 +48,8 @@ subtrees:
 - name: config
   remote: https://github.com/boostorg/config
   prefix: Vendor/config
-  commit: a7276f03975df55243924b4d277f4b1ae32bcfa2
-  branch: boost-1.81.0
+  commit: a7d5a9b05d70c9cfea980dc3539ca3d3461411b3
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
