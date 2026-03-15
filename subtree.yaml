@@ -212,8 +212,8 @@ subtrees:
 - name: optional
   remote: https://github.com/boostorg/optional
   prefix: Vendor/optional
-  commit: c809700d6a5fdcbb39e1bf8e9df3433a1615ad02
-  branch: boost-1.81.0
+  commit: 121f3efde91de78ca018019904732f55d33b5788
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
