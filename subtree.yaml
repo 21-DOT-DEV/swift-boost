@@ -21,8 +21,8 @@ subtrees:
 - name: assert
   remote: https://github.com/boostorg/assert
   prefix: Vendor/assert
-  commit: db964b368723d3007986b93c1d02e3f35f225324
-  branch: boost-1.81.0
+  commit: e107bd7b556d72ef5273c17f4099198a28edaa4d
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
