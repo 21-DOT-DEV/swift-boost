@@ -12,8 +12,8 @@ subtrees:
 - name: array
   remote: https://github.com/boostorg/array
   prefix: Vendor/array
-  commit: 868af27d82d4f83566c072615ec8eabea4266dc0
-  branch: boost-1.81.0
+  commit: e988ef9c4a7d64be2850dc8de18b6461e094d4ae
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
