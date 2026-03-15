@@ -230,8 +230,8 @@ subtrees:
 - name: range
   remote: https://github.com/boostorg/range
   prefix: Vendor/range
-  commit: 88c6199aedf8bbb5a6a8966e534f9de99943cde2
-  branch: boost-1.81.0
+  commit: 24b7c98ca12708549513adc4770a2cf5586168f9
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
