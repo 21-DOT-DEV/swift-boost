@@ -188,3 +188,6 @@ subtrees:
   commit: 3f2f7e90472ad0d54315dcc0eeb742c50b5ebca1
   branch: boost-1.81.0-clang-backport
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/mpl/

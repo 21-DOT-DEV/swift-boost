@@ -46,6 +46,3 @@
 [submodule "Submodules/numeric_conversion"]
 	path = Submodules/numeric_conversion
 	url = https://github.com/boostorg/numeric_conversion
-[submodule "Submodules/mpl"]
-	path = Submodules/mpl
-	url = https://github.com/21-DOT-DEV/mpl
