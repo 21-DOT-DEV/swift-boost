@@ -257,8 +257,8 @@ subtrees:
 - name: static_assert
   remote: https://github.com/boostorg/static_assert
   prefix: Vendor/static_assert
-  commit: ba72d3340f3dc6e773868107f35902292f84b07e
-  branch: boost-1.81.0
+  commit: 9a6a86efc8dea37083ed1a78fb0998673517cf4e
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
