@@ -61,5 +61,11 @@ subtrees:
   branch: boost-1.81.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/container/
+- name: container_hash
+  remote: https://github.com/boostorg/container_hash
+  prefix: Vendor/container_hash
+  commit: bd5b7a359c285a65836674d963e1137b067983ac
+  branch: boost-1.81.0
+  squash: true
