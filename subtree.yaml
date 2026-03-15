@@ -284,8 +284,8 @@ subtrees:
 - name: tokenizer
   remote: https://github.com/boostorg/tokenizer
   prefix: Vendor/tokenizer
-  commit: 90106f155bd72b62aaca0d9ad826f4132030dba0
-  branch: boost-1.81.0
+  commit: a1207c1a424ee565344fe5ef00605cb93f5210c2
+  tag: boost-1.90.0
   squash: true
   extractions:
   - from: include/**/*.{hpp,h,ipp}
