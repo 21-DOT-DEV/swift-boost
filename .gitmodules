@@ -49,9 +49,6 @@
 [submodule "Submodules/foreach"]
 	path = Submodules/foreach
 	url = https://github.com/boostorg/foreach
-[submodule "Submodules/detail"]
-	path = Submodules/detail
-	url = https://github.com/boostorg/detail
 [submodule "Submodules/utility"]
 	path = Submodules/utility
 	url = https://github.com/boostorg/utility

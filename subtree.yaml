@@ -105,3 +105,6 @@ subtrees:
   commit: c6dac76110869b7cd22e48a146170d14af994240
   branch: boost-1.81.0
   squash: true
+  extractions:
+  - from: 'include/**/*.{hpp,h,ipp}'
+    to: Sources/detail/
