@@ -43,5 +43,11 @@ subtrees:
   branch: boost-1.80.0
   squash: true
   extractions:
-  - from: 'include/**/*.{hpp,h,ipp}'
+  - from: include/**/*.{hpp,h,ipp}
     to: Sources/concept_check/
+- name: config
+  remote: https://github.com/boostorg/config
+  prefix: Vendor/config
+  commit: a7276f03975df55243924b4d277f4b1ae32bcfa2
+  branch: boost-1.81.0
+  squash: true
