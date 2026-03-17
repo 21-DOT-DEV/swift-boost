@@ -13,9 +13,9 @@
 # Vendored Boost headers in Sources should be marked as vendored
 Sources/*/include/** linguist-vendored
 
-# Custom files (not vendored)
-Sources/BoostTestHelpers/**             linguist-vendored=false
-Sources/*/src/*.cpp                     linguist-vendored=false
+# SPM build stubs (not real source code)
+Sources/BoostTestHelpers/**             linguist-vendored
+Sources/*/src/*.cpp                     linguist-vendored
 
 # Vendor/development directories
 Vendor/**                   export-ignore linguist-vendored
