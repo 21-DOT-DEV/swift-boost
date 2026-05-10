@@ -13,6 +13,25 @@ let boostModules: [String] = [
     "type_traits", "utility", "variant",
 ]
 
+/// Modules omitted from the `boost` umbrella's default dependency set.
+///
+/// Each module listed here is still published as an individual product
+/// (and remains a buildable `.target`), so consumers that explicitly
+/// depend on `.product(name: "<module>", package: "swift-boost")` are
+/// unaffected. Only the convenience `boost` umbrella's transitive
+/// surface shrinks, keeping `-I` and dependency-resolution cost down
+/// for consumers that import it.
+///
+/// Modules are listed here when no other module in the umbrella's
+/// transitive closure includes them, *and* their behavior is opt-in
+/// at the consumer level (e.g. `serialization` is gated behind
+/// `BOOST_MULTI_INDEX_DISABLE_SERIALIZATION` on the consumer side).
+let pruneCandidates: Set<String> = [
+    "algorithm", "array", "concept_check", "container", "date_time",
+    "foreach", "io", "lexical_cast", "numeric_conversion", "range",
+    "serialization", "tokenizer",
+]
+
 let boostIncludePaths: (String) -> [CXXSetting] = { prefix in
     boostModules.map { .headerSearchPath("\(prefix)\($0)/include") }
 }
@@ -27,7 +46,9 @@ let package = Package(
     targets: boostModules.map { .target(name: $0) } + [
         .target(
             name: "boost",
-            dependencies: boostModules.map { .target(name: $0) }
+            dependencies: boostModules
+                .filter { !pruneCandidates.contains($0) }
+                .map { .target(name: $0) }
         ),
         .target(name: "BoostTestHelpers", cxxSettings: boostIncludePaths("../")),
         .testTarget(
