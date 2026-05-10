@@ -1,0 +1,4 @@
+module type_index {
+    requires !cplusplus
+    export *
+}

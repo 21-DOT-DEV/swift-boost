@@ -1,0 +1,4 @@
+module range {
+    requires !cplusplus
+    export *
+}

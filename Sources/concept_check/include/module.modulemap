@@ -1,0 +1,4 @@
+module concept_check {
+    requires !cplusplus
+    export *
+}

@@ -1,0 +1,4 @@
+module lexical_cast {
+    requires !cplusplus
+    export *
+}

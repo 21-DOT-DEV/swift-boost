@@ -1,0 +1,4 @@
+module config {
+    requires !cplusplus
+    export *
+}

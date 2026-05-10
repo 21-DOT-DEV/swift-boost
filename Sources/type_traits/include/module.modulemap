@@ -1,0 +1,4 @@
+module type_traits {
+    requires !cplusplus
+    export *
+}

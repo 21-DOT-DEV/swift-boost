@@ -1,0 +1,4 @@
+module mp11 {
+    requires !cplusplus
+    export *
+}

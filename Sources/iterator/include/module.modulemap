@@ -1,0 +1,4 @@
+module iterator {
+    requires !cplusplus
+    export *
+}

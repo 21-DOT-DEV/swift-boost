@@ -1,0 +1,4 @@
+module boost {
+    requires !cplusplus
+    export *
+}

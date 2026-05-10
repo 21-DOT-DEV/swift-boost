@@ -1,0 +1,4 @@
+module assert {
+    requires !cplusplus
+    export *
+}

@@ -1,0 +1,4 @@
+module io {
+    requires !cplusplus
+    export *
+}

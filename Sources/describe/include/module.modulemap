@@ -1,0 +1,4 @@
+module describe {
+    requires !cplusplus
+    export *
+}
