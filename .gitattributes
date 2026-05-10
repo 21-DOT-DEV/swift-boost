@@ -13,6 +13,9 @@
 # Vendored Boost headers in Sources should be marked as vendored
 Sources/*/include/** linguist-vendored
 
+# Hand-written modulemap stubs are not vendored Boost source
+Sources/*/include/module.modulemap linguist-generated
+
 # SPM build stubs (not real source code)
 Sources/BoostTestHelpers/**             linguist-vendored
 Sources/*/src/*.cpp                     linguist-vendored

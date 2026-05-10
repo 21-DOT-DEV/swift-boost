@@ -1,0 +1,63 @@
+name: Apple Platforms
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  macos:
+    name: macOS
+    runs-on: macos-26
+    permissions:
+      contents: read
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_26.4.app/Contents/Developer"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build and test
+        run: swift test
+      - name: Build LinuxConsumerProbe (external-consumer regression coverage)
+        working-directory: Examples/LinuxConsumerProbe
+        run: swift build
+
+  ios:
+    name: iOS
+    runs-on: macos-26
+    permissions:
+      contents: read
+    env:
+      SCHEME: Boost-Package
+      DEVELOPER_DIR: "/Applications/Xcode_26.4.app/Contents/Developer"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build for iOS
+        run: |
+          xcrun xcodebuild \
+            -skipMacroValidation \
+            -skipPackagePluginValidation \
+            build \
+            -scheme "$SCHEME" \
+            -destination generic/platform=iOS
+
+  visionos:
+    name: visionOS
+    runs-on: macos-26
+    permissions:
+      contents: read
+    env:
+      SCHEME: Boost-Package
+      DEVELOPER_DIR: "/Applications/Xcode_26.4.app/Contents/Developer"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build for visionOS
+        run: |
+          xcrun xcodebuild \
+            -skipMacroValidation \
+            -skipPackagePluginValidation \
+            build \
+            -scheme "$SCHEME" \
+            -destination generic/platform=visionOS

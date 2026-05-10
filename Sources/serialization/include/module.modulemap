@@ -1,0 +1,4 @@
+module serialization {
+    requires !cplusplus
+    export *
+}

@@ -19,11 +19,16 @@ let boostIncludePaths: (String) -> [CXXSetting] = { prefix in
 
 let package = Package(
     name: "Boost",
-    products: boostModules.map { .library(name: $0, targets: [$0]) },
+    products: boostModules.map { .library(name: $0, targets: [$0]) }
+        + [.library(name: "boost", targets: ["boost"])],
     dependencies: [
         .package(url: "https://github.com/21-DOT-DEV/swift-plugin-subtree.git", exact: "0.0.12")
     ],
     targets: boostModules.map { .target(name: $0) } + [
+        .target(
+            name: "boost",
+            dependencies: boostModules.map { .target(name: $0) }
+        ),
         .target(name: "BoostTestHelpers", cxxSettings: boostIncludePaths("../")),
         .testTarget(
             name: "BoostTests",

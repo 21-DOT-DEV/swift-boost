@@ -1,0 +1,4 @@
+module numeric_conversion {
+    requires !cplusplus
+    export *
+}

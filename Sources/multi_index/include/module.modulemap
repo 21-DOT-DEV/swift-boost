@@ -1,0 +1,4 @@
+module multi_index {
+    requires !cplusplus
+    export *
+}

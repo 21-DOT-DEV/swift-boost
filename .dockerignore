@@ -1,0 +1,9 @@
+.build/
+.swiftpm/
+.git/
+.DS_Store
+**/.build/
+**/.swiftpm/
+**/.DS_Store
+Package.resolved
+**/Package.resolved

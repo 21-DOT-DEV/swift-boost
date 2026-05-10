@@ -1,0 +1,4 @@
+module throw_exception {
+    requires !cplusplus
+    export *
+}

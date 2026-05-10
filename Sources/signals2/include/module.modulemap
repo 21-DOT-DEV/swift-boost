@@ -1,0 +1,4 @@
+module signals2 {
+    requires !cplusplus
+    export *
+}

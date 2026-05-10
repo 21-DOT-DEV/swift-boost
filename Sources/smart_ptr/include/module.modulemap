@@ -1,0 +1,4 @@
+module smart_ptr {
+    requires !cplusplus
+    export *
+}

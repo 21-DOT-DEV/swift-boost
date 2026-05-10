@@ -1,0 +1,4 @@
+module mpl {
+    requires !cplusplus
+    export *
+}

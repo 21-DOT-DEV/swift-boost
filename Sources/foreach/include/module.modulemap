@@ -1,0 +1,4 @@
+module foreach {
+    requires !cplusplus
+    export *
+}

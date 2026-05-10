@@ -1,0 +1,4 @@
+module container_hash {
+    requires !cplusplus
+    export *
+}

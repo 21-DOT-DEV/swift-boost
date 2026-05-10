@@ -1,0 +1,4 @@
+module static_assert {
+    requires !cplusplus
+    export *
+}
